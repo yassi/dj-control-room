@@ -1,0 +1,670 @@
+/* ===== KEY SEARCH PAGE STYLES ===== */
+
+.key-search-page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 20px;
+}
+
+.key-search-page-header h1 {
+    margin: 0;
+    flex: 1;
+}
+
+.key-search-flush-form {
+    margin: 0;
+    flex-shrink: 0;
+}
+
+.flush-button {
+    background-color: #ba2121 !important;
+    color: white !important;
+    border: none !important;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.flush-button:hover:not(:disabled) {
+    background-color: #a41e1e !important;
+}
+
+.flush-button:disabled {
+    background-color: #ccc !important;
+    color: #666 !important;
+    cursor: not-allowed !important;
+    opacity: 0.6;
+}
+
+/* Dark mode support for flush button */
+@media (prefers-color-scheme: dark) {
+    .flush-button {
+        background-color: #cc2936 !important;
+    }
+
+    .flush-button:hover:not(:disabled) {
+        background-color: #b02329 !important;
+    }
+
+    .flush-button:disabled {
+        background-color: #555 !important;
+        color: #999 !important;
+    }
+}
+
+/* Table styles */
+#result_list {
+    width: 100%;
+}
+
+/* Icon styles */
+.icon-yes img,
+.icon-no img {
+    width: 13px;
+    height: 13px;
+    margin-right: 4px;
+    vertical-align: text-bottom;
+}
+
+.icon-yes {
+    color: #30a030;
+}
+
+.icon-no {
+    color: #ba2121;
+}
+
+/* Message list styles */
+.messagelist {
+    margin: 0 0 20px 0;
+}
+
+.messagelist .success,
+.messagelist .error {
+    padding: 10px 15px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    border: 1px solid;
+}
+
+.messagelist .success {
+    background-color: var(--message-success-bg, #d4edda);
+    color: var(--body-fg, #155724);
+    border-color: var(--message-success-border, #c3e6cb);
+}
+
+.messagelist .error {
+    background-color: var(--message-error-bg, #f8d7da);
+    color: var(--message-error-fg, #721c24);
+    border-color: var(--message-error-border, #f5c6cb);
+}
+
+.messagelist .warning  {
+    background-color: var(--message-warning-bg, #fff3cd);
+    color: var(--message-warning-fg, #856404);
+    border-color: var(--message-warning-border, #ffeeba);
+}
+
+/* ===== INSTANCE OVERVIEW STYLES ===== */
+
+.instance-stats {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    margin-top: 10px;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+}
+
+.stat-item {
+    text-align: center;
+    padding: 10px;
+    border-radius: 3px;
+    border: 1px solid var(--border-color, #ddd);
+}
+
+.stat-value {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--link-fg, #417690);
+}
+
+.stat-value.stat-success {
+    color: #30a030;
+}
+
+.stat-value.stat-warning {
+    color: #e47911;
+}
+
+.stat-value.stat-disabled {
+    color: #999;
+}
+
+.default-badge {
+    background: var(--link-fg, #417690);
+    color: var(--body-bg, white);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 10px;
+    margin-left: 5px;
+}
+
+.ttl-value {
+    font-weight: bold;
+    color: var(--link-fg, #417690);
+}
+
+/* ===== KEY SEARCH STYLES ===== */
+
+.search-form {
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    border: 1px solid var(--border-color, #ddd);
+}
+
+.search-form .form-row {
+    margin: 0;
+}
+
+.search-form label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.search-form .help {
+    font-size: 11px;
+    margin-top: 3px;
+    opacity: 0.7;
+}
+
+/* Key type badges - used in both search and detail views */
+.key-type {
+    font-size: 10px;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 3px;
+    color: white;
+}
+
+.key-type-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: bold;
+    color: white;
+}
+
+/* Key type colors - consistent across templates */
+.key-type-string {
+    background-color: #28a745;
+}
+
+.key-type-list {
+    background-color: #007bff;
+}
+
+.key-type-set {
+    background-color: #ffc107;
+}
+
+.key-type-zset {
+    background-color: #17a2b8;
+}
+
+.key-type-hash {
+    background-color: #6f42c1;
+}
+
+.key-type-stream {
+    background-color: #059669;
+}
+
+/* Alternative key type colors used in search view */
+.key-search .key-type-string {
+    background: #417690;
+}
+
+.key-search .key-type-list {
+    background: #30a030;
+}
+
+.key-search .key-type-set {
+    background: #e47911;
+}
+
+.key-search .key-type-zset {
+    background: #7b68ee;
+}
+
+.key-search .key-type-hash {
+    background: #dc2626;
+}
+
+/* ===== KEY DETAIL STYLES ===== */
+
+.key-value-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+}
+
+.key-value-table th,
+.key-value-table td {
+    padding: 8px 12px;
+    border: 1px solid var(--border-color, #ddd);
+    text-align: left;
+}
+
+.key-value-table th {
+    font-weight: bold;
+    background-color: var(--darkened-bg, rgba(0, 0, 0, 0.05));
+}
+
+.key-value-table tbody tr:nth-child(even) {
+    background-color: var(--darkened-bg, rgba(0, 0, 0, 0.02));
+}
+
+.key-value-table code {
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 12px;
+    background-color: var(--darkened-bg, rgba(0, 0, 0, 0.05));
+}
+
+.string-value-field {
+    width: 100%;
+}
+
+.readonly {
+    padding: 8px 0;
+}
+
+.readonly code {
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 13px;
+    background-color: var(--darkened-bg, rgba(0, 0, 0, 0.05));
+}
+
+.danger-zone {
+    border: 2px solid #dc3545;
+    border-radius: 4px;
+    background-color: var(--error-bg, rgba(220, 53, 69, 0.1));
+}
+
+.danger-zone h2 {
+    color: #dc3545;
+}
+
+.field-box {
+    margin-bottom: 15px;
+}
+
+.submit-row {
+    margin-top: 10px;
+}
+
+.key-value-display h3 {
+    margin: 0 0 15px 0;
+    opacity: 0.8;
+}
+
+/* Key Detail Page Styles */
+.key-detail-delete-form {
+    margin: 0;
+}
+
+.key-detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.key-detail-header h1 {
+    margin: 0;
+}
+
+/* Delete button styling to match Django admin */
+.delete-button {
+    background-color: #ba2121 !important;
+    color: white !important;
+    border-color: #ba2121 !important;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    border: none;
+    font-size: 14px;
+}
+
+.delete-button:hover,
+.delete-button:focus {
+    background-color: #a41e1e !important;
+    border-color: #a41e1e !important;
+    color: white !important;
+}
+
+/* Disabled delete button styling */
+.delete-button:disabled {
+    background-color: #ba2121 !important;
+    color: rgba(255, 255, 255, 0.6) !important;
+    border-color: #ba2121 !important;
+    opacity: 0.6 !important;
+    cursor: not-allowed !important;
+}
+
+.delete-button:disabled:hover,
+.delete-button:disabled:focus {
+    background-color: #ba2121 !important;
+    border-color: #ba2121 !important;
+    color: rgba(255, 255, 255, 0.6) !important;
+    opacity: 0.6 !important;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .delete-button {
+        background-color: #cc2936 !important;
+        border-color: #cc2936 !important;
+    }
+
+    .delete-button:hover,
+    .delete-button:focus {
+        background-color: #b02329 !important;
+        border-color: #b02329 !important;
+    }
+
+    .delete-button:disabled {
+        background-color: #cc2936 !important;
+        border-color: #cc2936 !important;
+        color: rgba(255, 255, 255, 0.6) !important;
+        opacity: 0.6 !important;
+    }
+
+    .delete-button:disabled:hover,
+    .delete-button:disabled:focus {
+        background-color: #cc2936 !important;
+        border-color: #cc2936 !important;
+        color: rgba(255, 255, 255, 0.6) !important;
+        opacity: 0.6 !important;
+    }
+}
+
+/* Pagination Mode Indicator Styles */
+.pagination-mode-indicator {
+    margin-bottom: 10px;
+}
+
+.pagination-mode-indicator .badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.pagination-mode-indicator .badge.cursor-mode {
+    background-color: #2196F3;
+    color: white;
+}
+
+.pagination-mode-indicator .badge.page-mode {
+    background-color: #4CAF50;
+    color: white;
+}
+
+/* Dark mode support for badges */
+@media (prefers-color-scheme: dark) {
+    .pagination-mode-indicator .badge.cursor-mode {
+        background-color: #1976D2;
+    }
+
+    .pagination-mode-indicator .badge.page-mode {
+        background-color: #388E3C;
+    }
+
+    /* Inline edit styles for dark mode */
+    .inline-edit-input {
+        border-color: #555;
+        background-color: var(--darkened-bg, #2d2d2d);
+        color: var(--body-fg, #fff);
+    }
+
+    .inline-edit-input:focus {
+        border-color: #79aec8;
+    }
+}
+
+/* Search Form Alignment Styles */
+.search-form-row {
+    margin-bottom: 15px;
+}
+
+.search-form-fields {
+    display: flex;
+    gap: 15px;
+    align-items: end;
+    margin-bottom: 5px;
+}
+
+.search-field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.search-field-group label {
+    font-weight: bold;
+    color: #666;
+    font-size: 11px;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+    white-space: nowrap;
+}
+
+.search-field-group input[type="text"],
+.search-field-group select {
+    height: 32px;
+    box-sizing: border-box;
+}
+
+.search-field-group select {
+    min-width: 80px;
+    padding: 6px 8px;
+}
+
+.search-field-group input[type="submit"] {
+    height: 32px;
+    padding: 6px 15px;
+    box-sizing: border-box;
+}
+
+.search-help {
+    margin-left: 0;
+    margin-top: 5px;
+}
+
+.search-help .help {
+    margin: 0;
+    color: #666;
+    font-size: 11px;
+    font-style: italic;
+}
+
+/* ===== INDEX PAGE ABILITIES STYLES ===== */
+
+/* Ability indicators (checkmarks and dashes) */
+.ability-indicator {
+    font-size: 1.2em;
+    display: inline-block;
+}
+
+.ability-supported {
+    color: var(--link-fg, #417690);
+}
+
+.ability-unsupported {
+    color: var(--border-color, #ccc);
+}
+
+/* Backend name display */
+.backend-name {
+    font-size: 0.9em;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+}
+
+.backend-error {
+    color: #ba2121;
+    font-size: 0.85em;
+}
+
+/* Abilities legend section */
+.abilities-legend {
+    margin-top: 20px;
+    padding: 10px;
+    background: var(--darkened-bg, #f8f8f8);
+    border-left: 3px solid var(--link-fg, #417690);
+    border-radius: 4px;
+}
+
+.abilities-legend-title {
+    margin: 0 0 10px 0;
+    font-weight: bold;
+    color: var(--body-fg, #333);
+}
+
+.abilities-legend-list {
+    margin: 0;
+    padding-left: 20px;
+    list-style: none;
+    color: var(--body-fg, #333);
+}
+
+.abilities-legend-list li {
+    margin-bottom: 5px;
+}
+
+.abilities-legend-list strong {
+    color: var(--body-fg, #333);
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .ability-supported {
+        color: var(--link-fg, #79aec8);
+    }
+
+    .ability-unsupported {
+        color: var(--border-color, #555);
+    }
+
+    .abilities-legend {
+        background: var(--darkened-bg, rgba(255, 255, 255, 0.05));
+        border-left-color: var(--link-fg, #79aec8);
+    }
+
+    .backend-error {
+        color: #cc2936;
+    }
+}
+
+/* ===== COLLECTION MEMBER DELETE STYLES ===== */
+
+.delete-member-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 4px 8px;
+    border-radius: 3px;
+    color: #dc3545;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.delete-member-btn:hover:not(:disabled) {
+    background-color: #dc3545;
+    color: white;
+    transform: scale(1.1);
+}
+
+.delete-member-btn:disabled {
+    color: #ccc;
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.delete-member-btn:disabled:hover {
+    background: none;
+    transform: none;
+}
+
+/* ===== INLINE EDIT STYLES ===== */
+
+.inline-edit-input {
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    padding: 4px 8px;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 12px;
+    background-color: var(--body-bg, #fff);
+    color: var(--body-fg, #333);
+    min-width: 100px;
+}
+
+.inline-edit-input:focus {
+    outline: none;
+    border-color: #79aec8;
+    box-shadow: 0 0 0 2px rgba(121, 174, 200, 0.2);
+}
+
+.inline-edit-btn {
+    background: #79aec8;
+    border: none;
+    border-radius: 3px;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 4px 8px;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    height: 28px;
+}
+
+.inline-edit-btn:hover:not(:disabled) {
+    background-color: #5b9bd5;
+    transform: scale(1.05);
+}
+
+.inline-edit-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.inline-edit-btn:disabled:hover {
+    background-color: #ccc;
+    transform: none;
+}

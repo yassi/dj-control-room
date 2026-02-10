@@ -1,0 +1,64 @@
+name: Tests
+
+on: [push]
+
+jobs:
+  python-tests:
+    runs-on: ubuntu-latest
+    name: Python ${{ matrix.python-version }} - Django ${{ matrix.django-version }}
+    strategy:
+      matrix:
+        python-version: [3.9, 3.14]
+        django-version: [4.2, 5.2, 6.0]
+        exclude:
+          # Django 5.0+ requires Python 3.10+
+          - python-version: 3.9
+            django-version: 6.0
+          - python-version: 3.9
+            django-version: 5.2
+          - python-version: 3.14
+            django-version: 4.2
+
+    services:
+      redis:
+        image: redis:7.4.1
+        ports: ["6379:6379"]
+      postgres:
+        image: postgres:16
+        ports: ["5432:5432"]
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install package and dependencies
+        run: |
+            make install
+            pip install "Django~=${{ matrix.django-version }}.0"
+
+      - name: Run tests with coverage
+        run: |
+            make test_coverage
+        env:
+          TEST_DB_BACKEND: postgresql
+          POSTGRES_HOST: localhost
+          POSTGRES_PORT: 5432
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          flags: unittests,python-${{ matrix.python-version }},django-${{ matrix.django-version }}
+          fail_ci_if_error: true

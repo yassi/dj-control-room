@@ -1,0 +1,33 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_urls static admin_list %}
+
+{% block title %}{{ title }} | DJ Control Room{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+<style type="text/css">
+    {% include "admin/dj_control_room/styles.css" %}
+</style>
+{% endblock %}
+
+{% block branding %}
+<h1 id="site-name"><a href="{% url 'dj_control_room:index' %}">DJ Control Room</a></h1>
+{% endblock %}
+
+{% block nav-sidebar %}
+{# Hide sidebar - we don't want to show all apps #}
+{% endblock %}
+
+{% block messages %}
+{% endblock %}
+
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+<a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+&rsaquo; {% trans 'DJ Control Room' %}
+</div>
+{% endblock %}
+
+{% block content %}
+{% endblock %}
