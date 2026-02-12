@@ -7,7 +7,7 @@ name = "dj-control-room"
 version = "0.1.0"
 description = "The control room for your Django app"
 readme = "README.md"
-license = {text = "MIT"}
+license = "MIT"
 authors = [
     {name = "Yasser Toruno", email = "your.email@example.com"},
 ]
@@ -22,7 +22,6 @@ classifiers = [
     "Framework :: Django :: 5.1",
     "Framework :: Django :: 5.2",
     "Framework :: Django :: 6.0",
-    "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
@@ -66,7 +65,10 @@ include-package-data = true
 exclude = ["tests*", "example_project*"]
 
 [tool.setuptools.package-data]
-"dj_control_room" = ["templates/**/*"]
+"dj_control_room" = [
+    "templates/**/*",
+    "static/**/*"
+]
 
 # pytest configuration
 [tool.pytest.ini_options]
