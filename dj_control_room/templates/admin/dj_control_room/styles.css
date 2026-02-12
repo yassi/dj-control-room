@@ -8,31 +8,33 @@
 
 .control-room-header {
     display: flex;
-    align-items: flex-start;
-    gap: 20px;
-    margin-bottom: 40px;
-}
-
-.header-icon {
-    flex-shrink: 0;
-    width: 64px;
-    height: 64px;
-    background: var(--link-fg, #417690);
-    border-radius: 12px;
-    display: flex;
     align-items: center;
-    justify-content: center;
-    color: white;
+    gap: 15px;
+    margin-bottom: 10px;
+    padding: 20px 0 10px 0;
 }
 
-.header-content h1 {
-    margin: 0 0 8px 0;
-    font-size: 28px;
+.header-glyph {
+    height: 60px;
+    width: 60px;
+    margin-left: -6px;
+    flex-shrink: 0;
+}
+
+.header-title {
+    margin: 0;
+    margin-top:-6px;
+    margin-left: -10px;
+    font-size: 24px;
     font-weight: 400;
     color: var(--body-fg, #333);
 }
 
-.header-content p {
+.header-subtitle {
+    margin-bottom: 30px;
+}
+
+.header-subtitle p {
     margin: 0;
     color: var(--body-quiet-color, #666);
     font-size: 14px;
@@ -183,8 +185,8 @@
 
 /* Dark mode support */
 @media (prefers-color-scheme: dark) {
-    .header-icon {
-        background: var(--link-fg, #79aec8);
+    .header-title {
+        color: var(--body-fg, #f8f8f8);
     }
 
     .panel-card {
