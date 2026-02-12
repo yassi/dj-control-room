@@ -5,9 +5,7 @@
 
 {% block extrahead %}
 {{ block.super }}
-<style type="text/css">
-    {% include "admin/dj_control_room/styles.css" %}
-</style>
+<link rel="stylesheet" href="{% static 'dj_control_room/css/control-room.css' %}">
 {% endblock %}
 
 {% block branding %}
