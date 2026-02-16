@@ -80,14 +80,24 @@ INSTALLED_APPS = [
 
 ### 3. Configure Settings (Optional)
 
-Add any custom configuration to your Django settings if needed:
+Configure how panels appear in the admin sidebar:
 
 ```python
-# Optional: Add custom settings for dj_control_room
-DJ_CONTROL_ROOM_SETTINGS = {
-    # Add your configuration here
+# Optional: DJ Control Room settings
+DJ_CONTROL_ROOM = {
+    # Control whether panels register in both Control Room and their own admin sections
+    'REGISTER_PANELS_IN_ADMIN': False,  # Default: False (only in Control Room)
+    
+    # Or use granular per-panel control:
+    # 'PANEL_ADMIN_REGISTRATION': {
+    #     'redis': True,   # Redis shows in both places
+    #     'cache': False,  # Cache only in Control Room
+    #     '*': False,      # Default for other panels
+    # }
 }
 ```
+
+See [ADMIN_INTEGRATION.md](ADMIN_INTEGRATION.md) for detailed configuration options.
 
 
 

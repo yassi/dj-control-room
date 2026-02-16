@@ -97,8 +97,8 @@ class PanelRegistry:
             ValueError: If panel is missing required attributes/methods
         """
         required_attrs = ['id', 'name', 'description', 'icon']
-        required_methods = ['get_url', 'get_status']
-        optional_methods = ['get_urls']  # Optional for auto-mounting
+        required_methods = []  # No required methods - all have defaults
+        optional_methods = ['get_url_name', 'get_urls']  # Both optional
         
         # Check required attributes
         for attr in required_attrs:

@@ -2,11 +2,13 @@
 Example panels for testing DJ Control Room.
 
 These are simple example panels that demonstrate the panel interface.
-In a real setup, these would be in separate packages.
+In a real setup, these would be in separate packages with their own urls.py files.
+
+Note: These examples inline the URL patterns for simplicity, but real panels
+should import from a standard Django urls.py file with app_name defined.
 """
 from django.urls import path
 from django.http import HttpResponse
-from django.shortcuts import render
 
 
 def example_index(request):
@@ -21,7 +23,7 @@ def example_index(request):
             <h2>Features:</h2>
             <ul>
                 <li>Automatically mounted by Control Room</li>
-                <li>Namespaced URLs</li>
+                <li>Uses own namespace (<code>example:index</code>)</li>
                 <li>No manual URL configuration needed</li>
             </ul>
         </body>
@@ -39,10 +41,22 @@ def demo_index(request):
             <p>This is an auto-mounted panel at <code>/admin/dj-control-room/demo/</code></p>
             <p><a href="/admin/dj-control-room/">← Back to Control Room</a></p>
             <h2>URL Namespace:</h2>
-            <p>This panel's URLs are namespaced as: <code>dj_control_room:demo:*</code></p>
+            <p>This panel's URLs are namespaced as: <code>demo:*</code></p>
+            <p>Panel decoupled from DJ Control Room - can work standalone!</p>
         </body>
         </html>
     """)
+
+
+# URL patterns with app_name for namespacing
+# In real panels, these would be in separate urls.py files
+example_urlpatterns = [
+    path('', example_index, name='index'),
+]
+
+demo_urlpatterns = [
+    path('', demo_index, name='index'),
+]
 
 
 class ExamplePanel:
@@ -53,23 +67,23 @@ class ExamplePanel:
     description = "A simple example panel for demonstration"
     icon = "chart"
     
-    def get_url(self):
-        """Return URL to this panel (auto-mounted by Control Room)"""
-        from django.urls import reverse
-        return reverse('dj_control_room:example:index')
-    
     def get_urls(self):
-        """Provide URL patterns - these are auto-mounted by Control Room"""
-        return [
-            path('', example_index, name='index'),
-        ]
+        """
+        Provide URL patterns - these are auto-mounted by Control Room.
+        
+        In a real panel, you would:
+            from .urls import urlpatterns
+            return urlpatterns
+        
+        And your urls.py would have:
+            app_name = 'example'  # Must match panel id
+            urlpatterns = [...]
+        """
+        # Return tuple format: (urlpatterns, app_name)
+        # app_name must match the panel's id attribute
+        return (example_urlpatterns, 'example')
     
-    def get_status(self):
-        """Return healthy status"""
-        return {
-            "status": "healthy",
-            "status_label": "READY"
-        }
+    # get_url_name() not needed - defaults to "index"
 
 
 class DemoPanel:
@@ -80,20 +94,13 @@ class DemoPanel:
     description = "Another demonstration panel"
     icon = "database"
     
-    def get_url(self):
-        """Return URL to this panel (auto-mounted by Control Room)"""
-        from django.urls import reverse
-        return reverse('dj_control_room:demo:index')
-    
     def get_urls(self):
-        """Provide URL patterns - these are auto-mounted by Control Room"""
-        return [
-            path('', demo_index, name='index'),
-        ]
+        """
+        Provide URL patterns - these are auto-mounted by Control Room.
+        Real panels should import from urls.py.
+        """
+        # Return tuple format: (urlpatterns, app_name)
+        # app_name must match the panel's id attribute
+        return (demo_urlpatterns, 'demo')
     
-    def get_status(self):
-        """Return connected status"""
-        return {
-            "status": "connected",
-            "status_label": "CONNECTED"
-        }
+    # get_url_name() not needed - defaults to "index"

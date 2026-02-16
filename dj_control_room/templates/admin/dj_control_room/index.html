@@ -54,11 +54,7 @@
                         </svg>
                         {% endif %}
                     </div>
-                    {% if panel.installed %}
-                    <div class="panel-status panel-status-{{ panel.status }}">
-                        {{ panel.status_label }}
-                    </div>
-                    {% else %}
+                    {% if not panel.installed %}
                     <div class="panel-status panel-status-not-installed">
                         NOT INSTALLED
                     </div>
@@ -125,9 +121,6 @@
                             <line x1="12" y1="17" x2="12.01" y2="17"/>
                         </svg>
                         {% endif %}
-                    </div>
-                    <div class="panel-status panel-status-{{ panel.status }}">
-                        {{ panel.status_label }}
                     </div>
                 </div>
                 <div class="panel-card-body">

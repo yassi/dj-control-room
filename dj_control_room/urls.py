@@ -9,6 +9,11 @@ def get_panel_urls():
     Each panel that implements get_urls() will have its URLs
     automatically mounted under /admin/dj-control-room/{panel_id}/
     
+    Panels should:
+    - Import their urlpatterns from a standard urls.py file
+    - Define app_name in urls.py for namespacing
+    - Use their own namespace (e.g., 'redis:index', not 'dj_control_room:redis:index')
+    
     Returns:
         list: URL patterns for all registered panels
     """
@@ -26,9 +31,11 @@ def get_panel_urls():
             try:
                 panel_urls = panel.get_urls()
                 if panel_urls:
-                    # Include panel URLs with its own namespace
+                    # Include panel URLs - preserves the panel's own namespace
+                    # Panel's urls.py should define app_name for proper namespacing
+                    # Result: /admin/dj-control-room/redis/ → routes to 'redis:index'
                     panel_patterns.append(
-                        path(f'{panel.id}/', include((panel_urls, panel.id)))
+                        path(f'{panel.id}/', include(panel_urls))
                     )
             except Exception as e:
                 import logging

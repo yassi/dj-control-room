@@ -21,11 +21,12 @@ def get_panel_data(panel):
         dict: Panel data dictionary
     """
     try:
-        # Get the panel's URL
-        url = panel.get_url()
+        # Get the URL name (defaults to "index" if not implemented)
+        url_name = getattr(panel, 'get_url_name', lambda: 'index')()
         
-        # Get the panel's status
-        status_info = panel.get_status()
+        # Resolve URL using panel's namespace
+        # Panel's namespace comes from app_name in their urls.py
+        url = reverse(f'{panel.id}:{url_name}')
         
         # Build panel data
         return {
@@ -34,8 +35,6 @@ def get_panel_data(panel):
             "description": panel.description,
             "icon": panel.icon,
             "url": url,
-            "status": status_info.get("status", "unknown"),
-            "status_label": status_info.get("status_label", "UNKNOWN"),
             "installed": True,
             "featured": is_featured_panel(panel.id),
         }
@@ -45,17 +44,16 @@ def get_panel_data(panel):
             f"Error loading panel '{panel.id}': {e}",
             exc_info=True
         )
-        # Still show the panel but with error status
+        # Still show the panel but with error indicator
         return {
             "id": panel.id,
             "name": panel.name,
             "description": panel.description,
             "icon": panel.icon,
             "url": "#",
-            "status": "error",
-            "status_label": "ERROR",
             "installed": True,
             "featured": is_featured_panel(panel.id),
+            "error": True,
         }
 
 
@@ -66,7 +64,6 @@ def get_featured_panels():
     Returns:
         list: List of featured panel data with installation status
     """
-    featured_panel_ids = get_featured_panel_ids()
     featured_panels = []
     
     for featured_meta in FEATURED_PANELS:
