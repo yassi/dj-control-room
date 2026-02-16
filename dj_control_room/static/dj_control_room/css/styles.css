@@ -60,12 +60,15 @@
 }
 
 .panel-card {
-    background: var(--body-bg, white);
+    background: var(--darkened-bg, #f9f9f9);
     border: 1px solid var(--border-color, #e0e0e0);
     border-radius: 8px;
     padding: 24px;
     transition: all 0.2s ease;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    min-height: 160px;
 }
 
 .panel-card:hover {
@@ -110,6 +113,20 @@
     color: #155724;
 }
 
+.panel-status-not-installed {
+    background: #e8f4f8;
+    color: #417690;
+}
+
+.panel-not-installed {
+    /* Not-installed panels use same styling as installed */
+}
+
+.panel-link-install {
+    color: var(--link-fg, #417690);
+    font-weight: 600;
+}
+
 .panel-card-body h3 {
     margin: 0 0 8px 0;
     font-size: 18px;
@@ -117,11 +134,18 @@
     color: var(--body-fg, #333);
 }
 
+.panel-card-body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
 .panel-card-body p {
     margin: 0 0 16px 0;
     color: var(--body-quiet-color, #666);
     font-size: 14px;
     line-height: 1.5;
+    flex: 1;
 }
 
 .panel-link {
@@ -163,7 +187,7 @@
     margin: 0 auto 20px;
     background: var(--body-bg, white);
     border: 2px solid var(--border-color, #e0e0e0);
-    border-radius: 50%;
+    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -181,6 +205,225 @@
     margin: 0;
     color: var(--body-quiet-color, #666);
     font-size: 14px;
+}
+
+/* ===== INSTALL PANEL PAGE STYLES ===== */
+
+.install-panel-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 40px;
+    padding: 30px;
+    background: var(--darkened-bg, #f9f9f9);
+    border-radius: 8px;
+}
+
+.install-panel-icon {
+    width: 80px;
+    height: 80px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--body-bg, white);
+    border-radius: 12px;
+    color: var(--link-fg, #417690);
+}
+
+.install-panel-info h1 {
+    margin: 0 0 10px 0;
+    font-size: 32px;
+    font-weight: 400;
+    color: var(--body-fg, #333);
+}
+
+.install-panel-description {
+    margin: 0;
+    font-size: 16px;
+    color: var(--body-quiet-color, #666);
+}
+
+.install-panel-content {
+    max-width: 800px;
+}
+
+.install-section {
+    margin-bottom: 40px;
+}
+
+.install-section h2 {
+    margin: 0 0 15px 0;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--body-fg, #333);
+}
+
+.install-section p {
+    margin: 0 0 10px 0;
+    line-height: 1.6;
+    color: var(--body-fg, #333);
+}
+
+.code-block {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px;
+    background: var(--darkened-bg, #f5f5f5);
+    border: 1px solid var(--border-color, #e0e0e0);
+    border-radius: 6px;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 14px;
+    margin: 15px 0;
+}
+
+.code-block code {
+    flex: 1;
+    color: var(--body-fg, #333);
+}
+
+.copy-button {
+    padding: 6px 12px;
+    background: var(--link-fg, #417690);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background 0.2s ease;
+}
+
+.copy-button:hover {
+    background: var(--link-hover-color, #2e5266);
+}
+
+.install-note {
+    font-style: italic;
+    color: var(--body-quiet-color, #666) !important;
+    font-size: 14px !important;
+}
+
+.feature-list {
+    list-style: none;
+    padding: 0;
+    margin: 15px 0;
+}
+
+.feature-list li {
+    padding: 10px 0 10px 30px;
+    position: relative;
+    border-bottom: 1px solid var(--border-color, #e0e0e0);
+    color: var(--body-fg, #333);
+}
+
+.feature-list li:last-child {
+    border-bottom: none;
+}
+
+.feature-list li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: var(--link-fg, #417690);
+    font-weight: bold;
+}
+
+.install-actions {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color, #e0e0e0);
+}
+
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    background: var(--link-fg, #417690);
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: 500;
+    transition: background 0.2s ease;
+}
+
+.button:hover {
+    background: var(--link-hover-color, #2e5266);
+    color: white;
+}
+
+.button-secondary {
+    background: var(--body-bg, white);
+    color: var(--link-fg, #417690);
+    border: 1px solid var(--border-color, #e0e0e0);
+}
+
+.button-secondary:hover {
+    background: var(--darkened-bg, #f5f5f5);
+    color: var(--link-fg, #417690);
+}
+
+.install-panel-message {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.install-panel-message h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #30a030;
+}
+
+.install-panel-message p {
+    margin: 15px 0;
+    font-size: 16px;
+}
+
+/* Dark mode support for install page */
+@media (prefers-color-scheme: dark) {
+    .install-panel-header {
+        background: rgba(255, 255, 255, 0.03);
+    }
+
+    .install-panel-icon {
+        background: var(--darkened-bg, #2d2d2d);
+        color: var(--link-fg, #79aec8);
+    }
+
+    .code-block {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: var(--border-color, #444);
+    }
+
+    .feature-list li {
+        border-color: var(--border-color, #444);
+    }
+
+    .copy-button {
+        background: var(--link-fg, #79aec8);
+    }
+
+    .copy-button:hover {
+        background: #5b9bd5;
+    }
+
+    .button {
+        background: var(--link-fg, #79aec8);
+    }
+
+    .button:hover {
+        background: #5b9bd5;
+    }
+
+    .button-secondary {
+        background: var(--darkened-bg, #2d2d2d);
+        border-color: var(--border-color, #444);
+        color: var(--link-fg, #79aec8);
+    }
+
+    .button-secondary:hover {
+        background: rgba(255, 255, 255, 0.05);
+    }
 }
 
 /* Dark mode support */
@@ -207,6 +450,11 @@
     .panel-status-healthy {
         background: rgba(52, 168, 83, 0.2);
         color: #6fbf73;
+    }
+
+    .panel-status-not-installed {
+        background: rgba(121, 174, 200, 0.15);
+        color: #79aec8;
     }
 
     .more-panels-section {
