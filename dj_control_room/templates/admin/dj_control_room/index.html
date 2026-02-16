@@ -12,9 +12,81 @@
     </div>
 
     <div class="panels-section">
-        <h2>INSTALLED PANELS</h2>
+        <h2>FEATURED PANELS</h2>
         <div class="panels-grid">
-            {% for panel in panels %}
+            {% for panel in featured_panels %}
+            <div class="panel-card {% if not panel.installed %}panel-not-installed{% endif %}">
+                <div class="panel-card-header">
+                    <div class="panel-icon panel-icon-{{ panel.icon }}">
+                        {% if panel.icon == "database" %}
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <ellipse cx="12" cy="5" rx="9" ry="3"/>
+                            <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/>
+                            <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
+                        </svg>
+                        {% elif panel.icon == "layers" %}
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+                            <polyline points="2 17 12 22 22 17"/>
+                            <polyline points="2 12 12 17 22 12"/>
+                        </svg>
+                        {% elif panel.icon == "chart" %}
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="20" x2="18" y2="10"/>
+                            <line x1="12" y1="20" x2="12" y2="4"/>
+                            <line x1="6" y1="20" x2="6" y2="14"/>
+                        </svg>
+                        {% elif panel.icon == "link" %}
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+                            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+                        </svg>
+                        {% elif panel.icon == "radio" %}
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="2"/>
+                            <path d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14"/>
+                        </svg>
+                        {% elif panel.icon == "alert" %}
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                            <line x1="12" y1="9" x2="12" y2="13"/>
+                            <line x1="12" y1="17" x2="12.01" y2="17"/>
+                        </svg>
+                        {% endif %}
+                    </div>
+                    {% if panel.installed %}
+                    <div class="panel-status panel-status-{{ panel.status }}">
+                        {{ panel.status_label }}
+                    </div>
+                    {% else %}
+                    <div class="panel-status panel-status-not-installed">
+                        NOT INSTALLED
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="panel-card-body">
+                    <h3>{{ panel.name }}</h3>
+                    <p>{{ panel.description }}</p>
+                    {% if panel.installed %}
+                    <a href="{{ panel.url }}" class="panel-link">
+                        View panel <span class="arrow">→</span>
+                    </a>
+                    {% else %}
+                    <a href="{{ panel.url }}" class="panel-link panel-link-install">
+                        Install panel <span class="arrow">→</span>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    {% if has_community_panels %}
+    <div class="panels-section">
+        <h2>COMMUNITY PANELS</h2>
+        <div class="panels-grid">
+            {% for panel in community_panels %}
             <div class="panel-card">
                 <div class="panel-card-header">
                     <div class="panel-icon panel-icon-{{ panel.icon }}">
@@ -69,6 +141,7 @@
             {% endfor %}
         </div>
     </div>
+    {% endif %}
 
     <div class="more-panels-section">
         <div class="more-panels-icon">
