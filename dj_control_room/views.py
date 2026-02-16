@@ -21,11 +21,10 @@ def get_panel_data(panel):
         dict: Panel data dictionary
     """
     try:
+        # Build the panel URL using reverse
+        # Panels are mounted at root level (/{panel_id}/)
         # Get the URL name (defaults to "index" if not implemented)
         url_name = getattr(panel, 'get_url_name', lambda: 'index')()
-        
-        # Resolve URL using panel's namespace
-        # Panel's namespace comes from app_name in their urls.py
         url = reverse(f'{panel.id}:{url_name}')
         
         # Build panel data

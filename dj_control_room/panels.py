@@ -55,44 +55,9 @@ class BasePanel:
         """
         return "index"
     
-    def get_urls(self):
-        """
-        Optional: Return URL patterns for this panel.
-        
-        If implemented, Control Room will automatically mount these URLs
-        under /admin/dj-control-room/{panel_id}/
-        
-        This means users only need to add Control Room to their urls.py
-        once, and all panel URLs are automatically included.
-        
-        Returns:
-            list: Django URL patterns (typically imported from your urls.py)
-            
-        Example:
-            def get_urls(self):
-                # Import from your standard Django urls.py file
-                from .urls import urlpatterns
-                return urlpatterns
-        
-        Your urls.py should define app_name for namespacing:
-            # urls.py
-            from django.urls import path
-            from . import views
-            
-            app_name = 'mypanel'  # Your panel's namespace
-            
-            urlpatterns = [
-                path('', views.index, name='index'),  # Main entry point
-                path('detail/<str:key>/', views.detail, name='detail'),
-            ]
-        
-        Note:
-            - URLs are mounted at: /admin/dj-control-room/{panel_id}/
-            - Use your own namespace: reverse('mypanel:index')
-            - Include a root path ('') with name='index' as your main entry point
-            - If not implemented, panel must provide standalone URLs
-        """
-        return None
+    # Note: get_urls() is no longer used
+    # Panels are included directly by users in their urls.py
+    # like any other Django app
     
     def validate(self):
         """
