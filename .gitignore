@@ -210,3 +210,5 @@ __marimo__/
 .specstory/
 
 cache_files/
+
+staticfiles/
