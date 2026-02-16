@@ -7,7 +7,7 @@ If not installed, they show a marketing page with installation instructions.
 
 FEATURED_PANELS = [
     {
-        "id": "redis",
+        "id": "dj_redis_panel",
         "name": "Redis Panel",
         "description": "Monitor connections, memory, keys, and throughput.",
         "icon": "database",
@@ -16,7 +16,7 @@ FEATURED_PANELS = [
         "pypi_url": "https://pypi.org/project/dj-redis-panel/",
     },
     {
-        "id": "cache",
+        "id": "dj_cache_panel",
         "name": "Cache Panel",
         "description": "Inspect cached entries, hit/miss ratios.",
         "icon": "layers",
@@ -25,7 +25,7 @@ FEATURED_PANELS = [
         "pypi_url": "https://pypi.org/project/dj-cache-panel/",
     },
     {
-        "id": "celery",
+        "id": "dj_celery_panel",
         "name": "Celery Panel",
         "description": "Track workers, monitor task queues.",
         "icon": "chart",
@@ -34,7 +34,7 @@ FEATURED_PANELS = [
         "pypi_url": "https://pypi.org/project/dj-celery-panel/",
     },
     {
-        "id": "urls",
+        "id": "dj_urls_panel",
         "name": "URLs Panel",
         "description": "Browse registered URL patterns.",
         "icon": "link",
@@ -48,7 +48,7 @@ FEATURED_PANELS = [
 def get_featured_panel_ids():
     """
     Get list of featured panel IDs.
-    
+
     Returns:
         list: List of panel IDs
     """
@@ -58,10 +58,10 @@ def get_featured_panel_ids():
 def get_featured_panel_metadata(panel_id):
     """
     Get metadata for a featured panel.
-    
+
     Args:
         panel_id: The panel ID to look up
-        
+
     Returns:
         dict: Panel metadata or None if not found
     """
@@ -74,10 +74,10 @@ def get_featured_panel_metadata(panel_id):
 def is_featured_panel(panel_id):
     """
     Check if a panel ID is a featured panel.
-    
+
     Args:
         panel_id: The panel ID to check
-        
+
     Returns:
         bool: True if featured panel
     """

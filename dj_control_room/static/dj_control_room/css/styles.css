@@ -113,6 +113,11 @@
     color: #155724;
 }
 
+.panel-status-installed {
+    background: #d4edda;
+    color: #155724;
+}
+
 .panel-status-not-installed {
     background: #e8f4f8;
     color: #417690;
@@ -695,7 +700,8 @@
     }
 
     .panel-status-connected,
-    .panel-status-healthy {
+    .panel-status-healthy,
+    .panel-status-installed {
         background: rgba(52, 168, 83, 0.2);
         color: #6fbf73;
     }
