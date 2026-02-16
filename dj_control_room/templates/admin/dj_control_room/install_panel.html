@@ -13,101 +13,270 @@
     </div>
     {% else %}
     {# Panel not installed, show installation instructions #}
-    <div class="install-panel-header">
-        <div class="install-panel-icon panel-icon-{{ panel.icon }}">
-            {% if panel.icon == "database" %}
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <ellipse cx="12" cy="5" rx="9" ry="3"/>
-                <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/>
-                <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
-            </svg>
-            {% elif panel.icon == "layers" %}
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polygon points="12 2 2 7 12 12 22 7 12 2"/>
-                <polyline points="2 17 12 22 22 17"/>
-                <polyline points="2 12 12 17 22 12"/>
-            </svg>
-            {% elif panel.icon == "chart" %}
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <line x1="18" y1="20" x2="18" y2="10"/>
-                <line x1="12" y1="20" x2="12" y2="4"/>
-                <line x1="6" y1="20" x2="6" y2="14"/>
-            </svg>
-            {% elif panel.icon == "link" %}
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
-                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
-            </svg>
+    
+    <div class="install-simple-container">
+        {# Icon and Title #}
+        <div class="install-simple-header">
+            <div class="install-simple-icon">
+                {% if panel.icon == "database" %}
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <ellipse cx="12" cy="5" rx="9" ry="3"/>
+                    <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/>
+                    <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
+                </svg>
+                {% elif panel.icon == "layers" %}
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+                    <polyline points="2 17 12 22 22 17"/>
+                    <polyline points="2 12 12 17 22 12"/>
+                </svg>
+                {% elif panel.icon == "chart" %}
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="20" x2="18" y2="10"/>
+                    <line x1="12" y1="20" x2="12" y2="4"/>
+                    <line x1="6" y1="20" x2="6" y2="14"/>
+                </svg>
+                {% elif panel.icon == "link" %}
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+                    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+                </svg>
+                {% else %}
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                    <line x1="3" y1="9" x2="21" y2="9"/>
+                    <line x1="9" y1="21" x2="9" y2="9"/>
+                </svg>
+                {% endif %}
+            </div>
+            <h1>{{ panel.name }} not installed</h1>
+            <p class="install-simple-description">{{ panel.description }}</p>
+        </div>
+
+        {# Quick Features based on panel type #}
+        <div class="install-simple-features">
+            {% if panel.id == 'redis' %}
+            <div class="install-simple-feature">
+                <div class="install-simple-feature-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                    </svg>
+                </div>
+                <div class="install-simple-feature-text">
+                    <strong>Real-time connection<br>& memory monitoring</strong>
+                </div>
+            </div>
+            <div class="install-simple-feature">
+                <div class="install-simple-feature-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"/>
+                        <path d="m21 21-4.35-4.35"/>
+                    </svg>
+                </div>
+                <div class="install-simple-feature-text">
+                    <strong>Browse & search<br>Redis keys</strong>
+                </div>
+            </div>
+            <div class="install-simple-feature">
+                <div class="install-simple-feature-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                </div>
+                <div class="install-simple-feature-text">
+                    <strong>View TTL &<br>key details</strong>
+                </div>
+            </div>
+            {% elif panel.id == 'cache' %}
+            <div class="install-simple-feature">
+                <div class="install-simple-feature-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+                        <polyline points="2 17 12 22 22 17"/>
+                        <polyline points="2 12 12 17 22 12"/>
+                    </svg>
+                </div>
+                <div class="install-simple-feature-text">
+                    <strong>Inspect all cache<br>backends</strong>
+                </div>
+            </div>
+            <div class="install-simple-feature">
+                <div class="install-simple-feature-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="20" x2="18" y2="10"/>
+                        <line x1="12" y1="20" x2="12" y2="4"/>
+                        <line x1="6" y1="20" x2="6" y2="14"/>
+                    </svg>
+                </div>
+                <div class="install-simple-feature-text">
+                    <strong>Monitor hit/miss<br>ratios</strong>
+                </div>
+            </div>
+            <div class="install-simple-feature">
+                <div class="install-simple-feature-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="3 6 5 6 21 6"/>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                    </svg>
+                </div>
+                <div class="install-simple-feature-text">
+                    <strong>Clear cache<br>entries</strong>
+                </div>
+            </div>
+            {% elif panel.id == 'urls' %}
+            <div class="install-simple-feature">
+                <div class="install-simple-feature-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+                        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+                    </svg>
+                </div>
+                <div class="install-simple-feature-text">
+                    <strong>Browse all URL<br>patterns</strong>
+                </div>
+            </div>
+            <div class="install-simple-feature">
+                <div class="install-simple-feature-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"/>
+                        <path d="m21 21-4.35-4.35"/>
+                    </svg>
+                </div>
+                <div class="install-simple-feature-text">
+                    <strong>Search by path<br>or name</strong>
+                </div>
+            </div>
+            <div class="install-simple-feature">
+                <div class="install-simple-feature-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                        <line x1="12" y1="18" x2="12" y2="12"/>
+                        <line x1="9" y1="15" x2="15" y2="15"/>
+                    </svg>
+                </div>
+                <div class="install-simple-feature-text">
+                    <strong>View parameters<br>& patterns</strong>
+                </div>
+            </div>
+            {% else %}
+            {# Generic features for unknown panels #}
+            <div class="install-simple-feature">
+                <div class="install-simple-feature-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                    </svg>
+                </div>
+                <div class="install-simple-feature-text">
+                    <strong>Real-time<br>monitoring</strong>
+                </div>
+            </div>
+            <div class="install-simple-feature">
+                <div class="install-simple-feature-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="20" x2="18" y2="10"/>
+                        <line x1="12" y1="20" x2="12" y2="4"/>
+                        <line x1="6" y1="20" x2="6" y2="14"/>
+                    </svg>
+                </div>
+                <div class="install-simple-feature-text">
+                    <strong>Detailed<br>insights</strong>
+                </div>
+            </div>
+            <div class="install-simple-feature">
+                <div class="install-simple-feature-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="3"/>
+                        <path d="M12 1v6m0 6v6M5.64 5.64l4.24 4.24m4.24 4.24l4.24 4.24M1 12h6m6 0h6M5.64 18.36l4.24-4.24m4.24-4.24l4.24-4.24"/>
+                    </svg>
+                </div>
+                <div class="install-simple-feature-text">
+                    <strong>Powerful<br>management</strong>
+                </div>
+            </div>
             {% endif %}
         </div>
-        <div class="install-panel-info">
-            <h1>{{ panel.name }}</h1>
-            <p class="install-panel-description">{{ panel.description }}</p>
-        </div>
-    </div>
 
-    <div class="install-panel-content">
-        <div class="install-section">
-            <h2>Installation</h2>
-            <p>Install this panel using pip:</p>
-            <div class="code-block">
-                <code>pip install {{ panel.package }}</code>
-                <button class="copy-button" onclick="navigator.clipboard.writeText('pip install {{ panel.package }}')">Copy</button>
+        {# Installation Steps #}
+        <div class="install-simple-steps">
+            <div class="install-simple-step-card">
+                <div class="install-simple-step">
+                    <div class="install-simple-step-number">1</div>
+                    <div class="install-simple-step-content">
+                        <h3>Install the package</h3>
+                        <div class="install-simple-code">
+                            <code>pip install {{ panel.package }}</code>
+                            <button class="install-simple-copy" onclick="copyToClipboard(this, 'pip install {{ panel.package }}')">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <p class="install-note">After installation, refresh this page. The panel will appear automatically in your Control Room dashboard.</p>
+
+            <div class="install-simple-step-card">
+                <div class="install-simple-step">
+                    <div class="install-simple-step-number">2</div>
+                    <div class="install-simple-step-content">
+                        <h3>Add to INSTALLED_APPS</h3>
+                        <div class="install-simple-code">
+                            <code>INSTALLED_APPS = [<br>&nbsp;&nbsp;&nbsp;&nbsp;# ...<br>&nbsp;&nbsp;&nbsp;&nbsp;"{{ panel.package|cut:'-' }}",<br>]</code>
+                            <button class="install-simple-copy" onclick="copyToClipboard(this, 'INSTALLED_APPS = [\n    # ...\n    &quot;{{ panel.package|cut:'-' }}&quot;,\n]')">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="install-simple-step-card">
+                <div class="install-simple-step">
+                    <div class="install-simple-step-number">3</div>
+                    <div class="install-simple-step-content">
+                        <h3>Restart & visit the admin</h3>
+                        <p>Restart your Django server and navigate to the Control Room in your admin. The {{ panel.name }} will appear automatically.</p>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div class="install-section">
-            <h2>What You'll Get</h2>
-            <ul class="feature-list">
-                {% if panel.id == 'redis' %}
-                <li>Monitor Redis connections and memory usage</li>
-                <li>Browse and search Redis keys</li>
-                <li>View key details and TTL information</li>
-                <li>Flush database operations</li>
-                <li>Real-time connection status</li>
-                {% elif panel.id == 'cache' %}
-                <li>Inspect Django cache backends</li>
-                <li>View cached entries and their values</li>
-                <li>Monitor cache hit/miss ratios</li>
-                <li>Clear cache entries</li>
-                <li>Performance statistics</li>
-                {% elif panel.id == 'celery' %}
-                <li>Monitor active Celery workers</li>
-                <li>View task queues and pending tasks</li>
-                <li>Track task execution history</li>
-                <li>Worker health status</li>
-                <li>Task retry and failure tracking</li>
-                {% elif panel.id == 'urls' %}
-                <li>Browse all registered URL patterns</li>
-                <li>Search URLs by path or name</li>
-                <li>View URL parameters and patterns</li>
-                <li>Filter by namespace</li>
-                <li>Quick URL reference</li>
-                {% endif %}
-            </ul>
-        </div>
-
+        {# Documentation Link #}
         {% if panel.docs_url %}
-        <div class="install-section">
-            <h2>Documentation</h2>
-            <p>Learn more about {{ panel.name }}:</p>
-            <p><a href="{{ panel.docs_url }}" target="_blank" rel="noopener">View Documentation →</a></p>
+        <div class="install-simple-docs">
+            <a href="{{ panel.docs_url }}" target="_blank" rel="noopener">
+                View full documentation →
+            </a>
         </div>
         {% endif %}
-
-        {% if panel.pypi_url %}
-        <div class="install-section">
-            <h2>PyPI Package</h2>
-            <p>View package details on PyPI:</p>
-            <p><a href="{{ panel.pypi_url }}" target="_blank" rel="noopener">{{ panel.package }} on PyPI →</a></p>
-        </div>
-        {% endif %}
-
-        <div class="install-actions">
-            <a href="{% url 'dj_control_room:index' %}" class="button button-secondary">← Back to Control Room</a>
-        </div>
     </div>
+
+    <script>
+    function copyToClipboard(button, text) {
+        // Decode HTML entities
+        var textarea = document.createElement('textarea');
+        textarea.innerHTML = text;
+        var decodedText = textarea.value;
+        
+        navigator.clipboard.writeText(decodedText).then(function() {
+            // Change button appearance
+            button.classList.add('copied');
+            button.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>';
+            
+            // Reset after 2 seconds
+            setTimeout(function() {
+                button.classList.remove('copied');
+                button.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+            }, 2000);
+        });
+    }
+    </script>
     {% endif %}
 </div>
 {% endblock %}

@@ -207,7 +207,208 @@
     font-size: 14px;
 }
 
-/* ===== INSTALL PANEL PAGE STYLES ===== */
+/* ===== INSTALL PANEL PAGE STYLES (Simple) ===== */
+
+.install-simple-container {
+    max-width: 700px;
+    margin: 60px auto;
+    text-align: center;
+}
+
+.install-simple-header {
+    margin-bottom: 50px;
+}
+
+.install-simple-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px;
+    background: var(--darkened-bg, #f5f5f5);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--link-fg, #417690);
+}
+
+.install-simple-header h1 {
+    margin: 0 0 15px 0;
+    font-size: 32px;
+    font-weight: 400;
+    color: var(--body-fg, #333);
+}
+
+.install-simple-description {
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--body-quiet-color, #666);
+    margin: 0 auto;
+    max-width: 500px;
+}
+
+/* Quick Features */
+.install-simple-features {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-bottom: 60px;
+    flex-wrap: wrap;
+}
+
+.install-simple-feature {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-align: left;
+}
+
+.install-simple-feature-icon {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    background: var(--darkened-bg, #f5f5f5);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--link-fg, #417690);
+}
+
+.install-simple-feature-text {
+    font-size: 13px;
+    line-height: 1.4;
+    color: var(--body-fg, #333);
+}
+
+.install-simple-feature-text strong {
+    font-weight: 500;
+}
+
+/* Installation Steps */
+.install-simple-steps {
+    text-align: left;
+    margin-bottom: 40px;
+}
+
+.install-simple-step-card {
+    background: var(--body-bg, white);
+    border: 1px solid var(--border-color, #e0e0e0);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    transition: all 0.2s ease;
+}
+
+.install-simple-step-card:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.install-simple-step {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.install-simple-step-number {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    background: var(--link-fg, #417690);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.install-simple-step-content {
+    flex: 1;
+}
+
+.install-simple-step-content h3 {
+    margin: 0 0 12px 0;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--body-fg, #333);
+}
+
+.install-simple-step-content p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--body-quiet-color, #666);
+}
+
+.install-simple-code {
+    position: relative;
+    background: var(--darkened-bg, #f5f5f5);
+    border: 1px solid var(--border-color, #e0e0e0);
+    border-radius: 6px;
+    padding: 15px 50px 15px 15px;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+.install-simple-code code {
+    color: var(--body-fg, #333);
+    line-height: 1.6;
+}
+
+.install-simple-copy {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--body-quiet-color, #999);
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.install-simple-copy:hover {
+    background: var(--body-bg, white);
+    color: var(--link-fg, #417690);
+}
+
+.install-simple-copy.copied {
+    background: var(--darkened-bg, #f5f5f5);
+    color: var(--body-quiet-color, #999);
+}
+
+.install-simple-copy.copied:hover {
+    background: var(--darkened-bg, #f5f5f5);
+    color: var(--body-quiet-color, #999);
+}
+
+/* Documentation Link */
+.install-simple-docs {
+    text-align: center;
+    padding-top: 30px;
+    border-top: 1px solid var(--border-color, #e0e0e0);
+}
+
+.install-simple-docs a {
+    color: var(--link-fg, #417690);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.install-simple-docs a:hover {
+    color: var(--link-hover-color, #2e5266);
+    text-decoration: underline;
+}
+
+/* ===== OLD INSTALL PANEL PAGE STYLES ===== */
 
 .install-panel-header {
     display: flex;
@@ -381,6 +582,53 @@
 
 /* Dark mode support for install page */
 @media (prefers-color-scheme: dark) {
+    .install-simple-icon {
+        background: var(--darkened-bg, #2d2d2d);
+        color: var(--link-fg, #79aec8);
+    }
+
+    .install-simple-feature-icon {
+        background: var(--darkened-bg, #2d2d2d);
+        color: var(--link-fg, #79aec8);
+    }
+
+    .install-simple-code {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: var(--border-color, #444);
+    }
+
+    .install-simple-copy:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--link-fg, #79aec8);
+    }
+
+    .install-simple-copy.copied {
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--body-quiet-color, #999);
+    }
+
+    .install-simple-copy.copied:hover {
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--body-quiet-color, #999);
+    }
+
+    .install-simple-docs {
+        border-top-color: var(--border-color, #444);
+    }
+
+    .install-simple-step-card {
+        background: var(--darkened-bg, #2d2d2d);
+        border-color: var(--border-color, #444);
+    }
+
+    .install-simple-step-card:hover {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    }
+
+    .install-simple-step-number {
+        background: var(--link-fg, #79aec8);
+    }
+
     .install-panel-header {
         background: rgba(255, 255, 255, 0.03);
     }
