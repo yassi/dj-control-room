@@ -147,8 +147,12 @@ def install_panel(request, panel_id):
     Marketing/installation page for uninstalled featured panels.
     
     Shows information about the panel and how to install it.
+    Uses panel-specific template if available, otherwise falls back to generic.
     """
     from django.shortcuts import redirect
+    from django.template.loader import get_template
+    from django.template import TemplateDoesNotExist
+    from django.http import HttpResponse
     from .featured_panels import get_featured_panel_metadata
     
     context = admin.site.each_context(request)
@@ -170,4 +174,12 @@ def install_panel(request, panel_id):
         "panel_url": installed_panel.get_url() if installed_panel else None,
     })
     
-    return render(request, "admin/dj_control_room/install_panel.html", context)
+    # Try to load panel-specific template first, fall back to generic
+    template_name = f"admin/dj_control_room/install_panel_{panel_id}.html"
+    try:
+        template = get_template(template_name)
+    except TemplateDoesNotExist:
+        template_name = "admin/dj_control_room/install_panel.html"
+        template = get_template(template_name)
+    
+    return HttpResponse(template.render(context, request))

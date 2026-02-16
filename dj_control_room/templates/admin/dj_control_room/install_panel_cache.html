@@ -1,0 +1,74 @@
+{% extends "admin/dj_control_room/base.html" %}
+{% load i18n admin_urls static admin_list %}
+
+{% block content %}
+<div class="control-room-container">
+    {% if is_installed %}
+    {# Panel is installed, redirect to it #}
+    <div class="install-panel-message">
+        <h2>✓ {{ panel.name }} is Installed</h2>
+        <p>This panel is already installed and ready to use.</p>
+        <p><a href="{{ panel_url }}" class="button">Go to {{ panel.name }} →</a></p>
+        <p><a href="{% url 'dj_control_room:index' %}">← Back to Control Room</a></p>
+    </div>
+    {% else %}
+    {# Panel not installed, show installation instructions #}
+    <div class="install-panel-header">
+        <div class="install-panel-icon panel-icon-layers">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+                <polyline points="2 17 12 22 22 17"/>
+                <polyline points="2 12 12 17 22 12"/>
+            </svg>
+        </div>
+        <div class="install-panel-info">
+            <h1>{{ panel.name }}</h1>
+            <p class="install-panel-description">{{ panel.description }}</p>
+        </div>
+    </div>
+
+    <div class="install-panel-content">
+        <div class="install-section">
+            <h2>Installation</h2>
+            <p>Install this panel using pip:</p>
+            <div class="code-block">
+                <code>pip install {{ panel.package }}</code>
+                <button class="copy-button" onclick="navigator.clipboard.writeText('pip install {{ panel.package }}')">Copy</button>
+            </div>
+            <p class="install-note">After installation, refresh this page. The panel will appear automatically in your Control Room dashboard.</p>
+        </div>
+
+        <div class="install-section">
+            <h2>What You'll Get</h2>
+            <ul class="feature-list">
+                <li>Inspect Django cache backends</li>
+                <li>View cached entries and their values</li>
+                <li>Monitor cache hit/miss ratios</li>
+                <li>Clear cache entries</li>
+                <li>Performance statistics</li>
+            </ul>
+        </div>
+
+        {% if panel.docs_url %}
+        <div class="install-section">
+            <h2>Documentation</h2>
+            <p>Learn more about {{ panel.name }}:</p>
+            <p><a href="{{ panel.docs_url }}" target="_blank" rel="noopener">View Documentation →</a></p>
+        </div>
+        {% endif %}
+
+        {% if panel.pypi_url %}
+        <div class="install-section">
+            <h2>PyPI Package</h2>
+            <p>View package details on PyPI:</p>
+            <p><a href="{{ panel.pypi_url }}" target="_blank" rel="noopener">{{ panel.package }} on PyPI →</a></p>
+        </div>
+        {% endif %}
+
+        <div class="install-actions">
+            <a href="{% url 'dj_control_room:index' %}" class="button button-secondary">← Back to Control Room</a>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
