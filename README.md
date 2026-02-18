@@ -18,6 +18,7 @@
 </p>
 
 <p align="center">
+  <a href="https://djangocontrolroom.com">Official Site</a> •
   <a href="#features">Features</a> •
   <a href="#installation">Installation</a> •
   <a href="#quick-start">Quick Start</a> •
@@ -196,7 +197,9 @@ Django Control Room includes built-in security features:
 
 ## Documentation
 
-Full documentation is available at: **[https://yassi.github.io/dj-control-room/](https://yassi.github.io/dj-control-room/)**
+Visit the official site at **[djangocontrolroom.com](https://djangocontrolroom.com)** for guides, tutorials, and examples.
+
+Full documentation: **[https://yassi.github.io/dj-control-room/](https://yassi.github.io/dj-control-room/)**
 
 - [Installation Guide](docs/installation.md)
 - [Configuration](docs/configuration.md)
@@ -223,6 +226,7 @@ Created by [Yasser Toruno](https://github.com/yassi)
 ---
 
 <p align="center">
+  <a href="https://djangocontrolroom.com">Official Site</a> •
   <a href="https://github.com/yassi/dj-control-room">Star us on GitHub</a> •
   <a href="https://github.com/yassi/dj-control-room/issues">Report Bug</a> •
   <a href="https://github.com/yassi/dj-control-room/issues">Request Feature</a>

@@ -2,6 +2,8 @@
 
 Django Control Room offers flexible configuration options to customize its behavior.
 
+Official Site: **[djangocontrolroom.com](https://djangocontrolroom.com)**.
+
 ![Control Room Features](https://raw.githubusercontent.com/yassi/dj-control-room/main/images/grid_image.png)
 
 ## Settings Overview

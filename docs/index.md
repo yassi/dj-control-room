@@ -10,6 +10,8 @@
 
 Welcome to the Django Control Room documentation!
 
+**Official Site**: [djangocontrolroom.com](https://djangocontrolroom.com)
+
 ## Getting Started
 
 New to Django Control Room? Start here:
@@ -150,6 +152,7 @@ Django Control Room automatically:
 
 Need help? Here's how to get support:
 
+- **[Official Site](https://djangocontrolroom.com)** - Guides, tutorials, and examples
 - **[GitHub Discussions](https://github.com/yassi/dj-control-room/discussions)** - Ask questions
 - **[Issue Tracker](https://github.com/yassi/dj-control-room/issues)** - Report bugs
 - **[GitHub Repository](https://github.com/yassi/dj-control-room)** - View source code
@@ -174,3 +177,4 @@ Created by [Yasser Toruno](https://github.com/yassi)
 - **Setting up?** → [Configuration](configuration.md)  
 - **Building a panel?** → [Creating Panels](creating-panels.md)
 - **Need API details?** → [API Reference](api-reference.md)
+- **Want more examples?** → [djangocontrolroom.com](https://djangocontrolroom.com)

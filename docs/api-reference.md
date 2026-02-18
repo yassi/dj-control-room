@@ -2,6 +2,8 @@
 
 Complete API reference for Django Control Room.
 
+Official Site: **[djangocontrolroom.com](https://djangocontrolroom.com)**.
+
 ![Django Control Room](https://raw.githubusercontent.com/yassi/dj-control-room/main/images/grid_image.png)
 
 ## Panel Interface

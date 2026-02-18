@@ -2,6 +2,8 @@
 
 Learn how to create custom panels for Django Control Room.
 
+Official Site: **[djangocontrolroom.com](https://djangocontrolroom.com)**.
+
 ## Quick Start
 
 A panel is a Python package that implements a simple interface. Your panel will appear in the Control Room dashboard alongside official panels:

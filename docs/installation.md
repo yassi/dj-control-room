@@ -2,6 +2,8 @@
 
 This guide will walk you through installing Django Control Room and its panels.
 
+Official Site: **[djangocontrolroom.com](https://djangocontrolroom.com)**.
+
 ![Django Control Room Dashboard](https://raw.githubusercontent.com/yassi/dj-control-room/main/images/full-screenshot.png)
 
 ## Basic Installation
