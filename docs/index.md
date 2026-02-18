@@ -57,13 +57,11 @@ Visit: `http://localhost:8000/admin/dj-control-room/`
 
 - **[Installation Guide](installation.md)** - Step-by-step installation instructions
 - **[Configuration](configuration.md)** - Settings and customization options
-- **[Admin Integration](../ADMIN_INTEGRATION.md)** - Sidebar and admin integration
 
 ### Developer Guides
 
 - **[Creating Panels](creating-panels.md)** - Build custom panels
 - **[API Reference](api-reference.md)** - Complete API documentation
-- **[Contributing](../CONTRIBUTING.md)** - Contribute to Django Control Room
 
 ### Panel Documentation
 
@@ -158,11 +156,11 @@ Need help? Here's how to get support:
 
 ## Contributing
 
-We welcome contributions! See our [Contributing Guide](../CONTRIBUTING.md) for details.
+We welcome contributions! Please check the GitHub repository for contribution guidelines.
 
 ## License
 
-Django Control Room is licensed under the MIT License. See [LICENSE](../LICENSE) for details.
+Django Control Room is licensed under the MIT License.
 
 ## Credits
 

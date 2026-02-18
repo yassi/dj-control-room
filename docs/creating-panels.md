@@ -490,4 +490,3 @@ Check out these official panels for reference:
 
 - [Configuration](configuration.md) - Learn about available settings
 - [API Reference](api-reference.md) - Detailed API documentation
-- [Contributing](../CONTRIBUTING.md) - Contribute to Django Control Room

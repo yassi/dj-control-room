@@ -198,7 +198,7 @@ If pip can't find the package:
 
 - [Configuration Guide](configuration.md) - Learn about available settings
 - [Creating Panels](creating-panels.md) - Build your own panels
-- [Admin Integration](../ADMIN_INTEGRATION.md) - Customize admin sidebar behavior
+- [API Reference](api-reference.md) - Detailed API documentation
 
 ## Upgrading
 
@@ -213,5 +213,3 @@ To upgrade with panels:
 ```bash
 pip install --upgrade dj-control-room[all]
 ```
-
-Check the [CHANGELOG](../CHANGELOG.md) for migration notes between versions.

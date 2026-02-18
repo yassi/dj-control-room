@@ -286,6 +286,6 @@ Configuration changes don't apply.
 
 ## Next Steps
 
-- [Creating Panels](creating-panels.md) - Build custom panels
-- [API Reference](api-reference.md) - Detailed API documentation
-- [Admin Integration](../ADMIN_INTEGRATION.md) - Deep dive into admin integration
+- [Installation Guide](installation.md)
+- [Creating Panels](creating-panels.md)
+- [API Reference](api-reference.md)
