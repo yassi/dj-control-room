@@ -1,6 +1,6 @@
 # Development
 
-Contributing to DJ Control Room or setting up for local development.
+Contributing to Django Control Room or setting up for local development.
 
 ## Prerequisites
 

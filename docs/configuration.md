@@ -1,10 +1,12 @@
 # Configuration Guide
 
-DJ Control Room offers flexible configuration options to customize its behavior.
+Django Control Room offers flexible configuration options to customize its behavior.
+
+![Control Room Features](https://raw.githubusercontent.com/yassi/dj-control-room/main/images/grid_image.png)
 
 ## Settings Overview
 
-All DJ Control Room settings are configured in your Django `settings.py` file under the `DJ_CONTROL_ROOM_SETTINGS` dictionary.
+All Django Control Room settings are configured in your Django `settings.py` file under the `DJ_CONTROL_ROOM_SETTINGS` dictionary.
 
 ```python
 # settings.py
@@ -16,7 +18,11 @@ DJ_CONTROL_ROOM_SETTINGS = {
 
 ## Admin Sidebar Behavior
 
-By default, all installed panels appear **only** in the DJ Control Room section of the admin sidebar. You can change this behavior.
+By default, all installed panels appear **only** in the Django Control Room section of the admin sidebar:
+
+<img src="https://raw.githubusercontent.com/yassi/dj-control-room/main/images/sidebar.png" alt="Admin Sidebar" width="300">
+
+You can change this behavior to show panels in multiple sections.
 
 ### Global Setting
 
@@ -78,10 +84,10 @@ Admin Sidebar:
 
 **Type:** `bool`  
 **Default:** `False`  
-**Description:** Global setting controlling whether panels register in their own admin sections in addition to DJ Control Room.
+**Description:** Global setting controlling whether panels register in their own admin sections in addition to Django Control Room.
 
-- `False` (default): Panels only appear under DJ Control Room
-- `True`: Panels appear in both DJ Control Room and their own sections
+- `False` (default): Panels only appear under Django Control Room
+- `True`: Panels appear in both Django Control Room and their own sections
 
 ### `PANEL_ADMIN_REGISTRATION`
 
@@ -101,14 +107,14 @@ Admin Sidebar:
 
 ## URL Configuration
 
-DJ Control Room expects panels to be mounted at the root URL level:
+Django Control Room expects panels to be mounted with explicit paths under `/admin/`:
 
 ```python
 # urls.py
 urlpatterns = [
-    # ✅ Correct: Mount panels at root
-    path('', include('dj_redis_panel.urls')),
-    path('', include('dj_cache_panel.urls')),
+    # Mount panels with explicit paths under admin
+    path('admin/dj-redis-panel/', include('dj_redis_panel.urls')),
+    path('admin/dj-cache-panel/', include('dj_cache_panel.urls')),
     
     # Control Room dashboard
     path('admin/dj-control-room/', include('dj_control_room.urls')),
@@ -116,14 +122,14 @@ urlpatterns = [
 ]
 ```
 
-This gives clean URLs like:
+This gives admin-local URLs:
 - `/admin/dj-redis-panel/` - Redis panel
 - `/admin/dj-cache-panel/` - Cache panel
 - `/admin/dj-control-room/` - Control Room dashboard
 
 ## Static Files
 
-DJ Control Room includes CSS, JavaScript, and images in its static files.
+Django Control Room includes CSS, JavaScript, and images in its static files.
 
 ### Development
 
@@ -149,7 +155,7 @@ Configure your web server (nginx, Apache) to serve static files from `STATIC_ROO
 
 ### Staff-Only Access
 
-DJ Control Room automatically requires staff permissions. Only users with `is_staff=True` can access the dashboard.
+Django Control Room automatically requires staff permissions. Only users with `is_staff=True` can access the dashboard.
 
 ### Package Verification
 

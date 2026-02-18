@@ -1,10 +1,14 @@
 # Creating Panels
 
-Learn how to create custom panels for DJ Control Room.
+Learn how to create custom panels for Django Control Room.
 
 ## Quick Start
 
-A panel is a Python package that implements a simple interface. Here's the minimum you need:
+A panel is a Python package that implements a simple interface. Your panel will appear in the Control Room dashboard alongside official panels:
+
+![Panel Grid](https://raw.githubusercontent.com/yassi/dj-control-room/main/images/grid_image.png)
+
+Here's the minimum you need:
 
 ```python
 # my_panel/panel.py
@@ -24,7 +28,7 @@ class MyPanel:
 my_panel = "my_panel.panel:MyPanel"
 ```
 
-That's it! Your panel will be automatically discovered by DJ Control Room.
+That's it! Your panel will be automatically discovered by Django Control Room.
 
 ## Panel Interface
 
@@ -88,7 +92,7 @@ def get_url_name(self):
     return "index"  # Or "dashboard", "home", etc.
 ```
 
-DJ Control Room will resolve your panel's URL using: `reverse(f'{panel.id}:{url_name}')`
+Django Control Room will resolve your panel's URL using: `reverse(f'{panel.id}:{url_name}')`
 
 ## Complete Panel Structure
 
@@ -136,7 +140,7 @@ Or manually create the structure shown above.
 # my_panel/panel.py
 class MyPanel:
     """
-    My awesome panel for DJ Control Room.
+    My awesome panel for Django Control Room.
     """
     
     # Required attributes
@@ -286,7 +290,11 @@ class MyPanelAdmin(admin.ModelAdmin):
         return False
 ```
 
-> **Note:** DJ Control Room will automatically unregister this placeholder model and replace it with its own proxy model under the "DJ Control Room" section (unless configured otherwise).
+> **Note:** Django Control Room will automatically unregister this placeholder model and replace it with its own proxy model under the "Django Control Room" section (unless configured otherwise).
+
+Once your panel is installed and configured, it will appear in the admin sidebar under Django Control Room:
+
+<img src="https://raw.githubusercontent.com/yassi/dj-control-room/main/images/sidebar.png" alt="Admin Sidebar" width="300">
 
 ## Publishing Your Panel
 
@@ -300,7 +308,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "my-panel"
 version = "0.1.0"
-description = "My awesome panel for DJ Control Room"
+description = "My awesome panel for Django Control Room"
 readme = "README.md"
 license = {text = "MIT"}
 authors = [
@@ -431,8 +439,9 @@ Include comprehensive README with:
 3. Include URLs:
    ```python
    urlpatterns = [
-       path('', include('my_panel.urls')),
+       path('admin/my-panel/', include('my_panel.urls')),
        path('admin/dj-control-room/', include('dj_control_room.urls')),
+       path('admin/', admin.site.urls),
    ]
    ```
 
@@ -481,4 +490,4 @@ Check out these official panels for reference:
 
 - [Configuration](configuration.md) - Learn about available settings
 - [API Reference](api-reference.md) - Detailed API documentation
-- [Contributing](../CONTRIBUTING.md) - Contribute to DJ Control Room
+- [Contributing](../CONTRIBUTING.md) - Contribute to Django Control Room

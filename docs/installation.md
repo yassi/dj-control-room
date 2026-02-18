@@ -1,10 +1,12 @@
 # Installation Guide
 
-This guide will walk you through installing DJ Control Room and its panels.
+This guide will walk you through installing Django Control Room and its panels.
+
+![Django Control Room Dashboard](https://raw.githubusercontent.com/yassi/dj-control-room/main/images/full-screenshot.png)
 
 ## Basic Installation
 
-Install DJ Control Room via pip:
+Install Django Control Room via pip:
 
 ```bash
 pip install dj-control-room
@@ -14,7 +16,7 @@ This installs the core Control Room without any panels.
 
 ## Install with Official Panels
 
-DJ Control Room supports installation with optional panel extras:
+Django Control Room supports installation with optional panel extras:
 
 ### Install Specific Panels
 
@@ -60,7 +62,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
-    # DJ Control Room (Required)
+    # Django Control Room (Required)
     'dj_control_room',
     
     # Panels (Add the ones you installed)
@@ -76,11 +78,11 @@ INSTALLED_APPS = [
 ]
 ```
 
-> **Note:** Panels are automatically discovered via entry points, so DJ Control Room will detect them even if you install them separately.
+> **Note:** Panels are automatically discovered via entry points, so Django Control Room will detect them even if you install them separately.
 
 ### 2. Configure URLs
 
-Include DJ Control Room and panel URLs in your project's `urls.py`:
+Include Django Control Room and panel URLs in your project's `urls.py`:
 
 ```python
 # urls.py
@@ -88,12 +90,12 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    # Panel URLs - include each panel you installed at root level
-    path('', include('dj_redis_panel.urls')),
-    path('', include('dj_cache_panel.urls')),
-    path('', include('dj_urls_panel.urls')),
-    path('', include('dj_celery_panel.urls')),
-    path('', include('dj_signals_panel.urls')),
+    # Panel URLs - include each panel you installed
+    path('admin/dj-redis-panel/', include('dj_redis_panel.urls')),
+    path('admin/dj-cache-panel/', include('dj_cache_panel.urls')),
+    path('admin/dj-urls-panel/', include('dj_urls_panel.urls')),
+    path('admin/dj-celery-panel/', include('dj_celery_panel.urls')),
+    path('admin/dj-signals-panel/', include('dj_signals_panel.urls')),
     
     # Control Room dashboard
     path('admin/dj-control-room/', include('dj_control_room.urls')),
@@ -103,7 +105,7 @@ urlpatterns = [
 ]
 ```
 
-> **Important:** Panel URLs are mounted at root level so they can have clean URLs like `/admin/dj-redis-panel/`. The control room dashboard provides a central hub at `/admin/dj-control-room/`.
+> **Important:** Panels are mounted with explicit paths under `/admin/` to keep them integrated with Django admin. Each panel appears at its own admin-local URL like `/admin/dj-redis-panel/`.
 
 ### 3. Run Migrations
 
@@ -111,7 +113,7 @@ urlpatterns = [
 python manage.py migrate
 ```
 
-> **Note:** DJ Control Room itself has no migrations. This step is just for standard Django setup.
+> **Note:** Django Control Room itself has no migrations. This step is just for standard Django setup.
 
 ### 4. Collect Static Files (Production)
 
@@ -122,6 +124,10 @@ python manage.py collectstatic
 ```
 
 ## Verify Installation
+
+Once installed, your admin sidebar will show Django Control Room with all your panels:
+
+<img src="https://raw.githubusercontent.com/yassi/dj-control-room/main/images/sidebar.png" alt="Admin Sidebar" width="300">
 
 ### Check Panel Discovery
 
@@ -148,7 +154,9 @@ for panel in registry.get_panels():
 
 2. Navigate to: `http://127.0.0.1:8000/admin/dj-control-room/`
 
-3. You should see the Control Room dashboard with your installed panels!
+3. You should see the Control Room dashboard with your installed panels:
+
+![Django Control Room Dashboard](https://raw.githubusercontent.com/yassi/dj-control-room/main/images/full-screenshot.png)
 
 ## Troubleshooting
 

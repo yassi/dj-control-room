@@ -8,11 +8,11 @@
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/yassi/dj-control-room/main/images/hero-dark.png">
     <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/yassi/dj-control-room/main/images/hero-light.png">
-    <img alt="DJ Control Room" src="https://raw.githubusercontent.com/yassi/dj-control-room/main/images/hero-light.png">
+    <img alt="Django Control Room" src="https://raw.githubusercontent.com/yassi/dj-control-room/main/images/hero-light.png">
   </picture>
 </p>
 
-<h1 align="center">DJ Control Room</h1>
+<h1 align="center">Django Control Room</h1>
 <p align="center">
   <strong>A centralized dashboard for managing Django admin panels</strong>
 </p>
@@ -36,7 +36,7 @@
 - **Easy Integration** - Works seamlessly with Django admin
 - **Official Panels** - Pre-built panels for common tasks
 
-![DJ Control Room Dashboard](https://raw.githubusercontent.com/yassi/dj-control-room/main/images/full-screenshot.png)
+![Django Control Room Dashboard](https://raw.githubusercontent.com/yassi/dj-control-room/main/images/full-screenshot.png)
 
 ## Installation
 
@@ -78,7 +78,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
-    # DJ Control Room
+    # Django Control Room
     'dj_control_room',
     
     # Add any panels you installed
@@ -100,9 +100,9 @@ from django.urls import path, include
 
 urlpatterns = [
     # Panel URLs (include each panel you installed)
-    path('', include('dj_redis_panel.urls')),
-    path('', include('dj_cache_panel.urls')),
-    path('', include('dj_urls_panel.urls')),
+    path('admin/dj-redis-panel/', include('dj_redis_panel.urls')),
+    path('admin/dj-cache-panel/', include('dj_cache_panel.urls')),
+    path('admin/dj-urls-panel/', include('dj_urls_panel.urls')),
     
     # Control Room dashboard
     path('admin/dj-control-room/', include('dj_control_room.urls')),
@@ -116,11 +116,11 @@ urlpatterns = [
 
 1. Run migrations: `python manage.py migrate`
 2. Start your server: `python manage.py runserver`
-3. Navigate to `/admin/dj-control-room/`
+3. Navigate to `http://localhost:8000/admin/dj-control-room/`
 
 ## Admin Sidebar Integration
 
-All installed panels appear in the Django admin sidebar under "DJ Control Room":
+All installed panels appear in the Django admin sidebar under "Django Control Room":
 
 <img src="https://raw.githubusercontent.com/yassi/dj-control-room/main/images/sidebar.png" alt="Admin Sidebar" width="300">
 
@@ -188,7 +188,7 @@ See our [Creating Panels Guide](docs/creating-panels.md) for full documentation.
 
 ## Security
 
-DJ Control Room includes built-in security features:
+Django Control Room includes built-in security features:
 
 - **Package Verification** - Featured panels are verified by package origin
 - **Staff-Only Access** - Requires Django staff/superuser permissions
