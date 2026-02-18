@@ -4,7 +4,31 @@ Learn how to create custom panels for Django Control Room.
 
 Official Site: **[djangocontrolroom.com](https://djangocontrolroom.com)**.
 
-## Quick Start
+## Cookiecutter Template (Recommended)
+
+The fastest way to create a new panel is using our official cookiecutter template:
+
+**[cookiecutter-dj-control-room-plugin](https://github.com/yassi/cookiecutter-dj-control-room-plugin)**
+
+This template generates a complete, production-ready panel structure with:
+
+- Django admin integration
+- Docker Compose development setup
+- Test suite with pytest
+- Documentation with MkDocs
+- Modern Python packaging (`pyproject.toml`)
+- Example project for testing
+
+### Using the Template
+
+```bash
+pip install cookiecutter
+cookiecutter https://github.com/yassi/cookiecutter-dj-control-room-plugin
+```
+
+The template will prompt you for project details and generate everything you need to start building your panel immediately.
+
+## Quick Start (Manual Setup)
 
 A panel is a Python package that implements a simple interface. Your panel will appear in the Control Room dashboard alongside official panels:
 
@@ -128,10 +152,10 @@ my-panel/
 
 ### 1. Create Package Structure
 
-Use the [cookiecutter template](https://github.com/yassi/cookiecutter-django-admin-panel):
+Use the [cookiecutter template](https://github.com/yassi/cookiecutter-dj-control-room-plugin):
 
 ```bash
-cookiecutter gh:yassi/cookiecutter-django-admin-panel
+cookiecutter https://github.com/yassi/cookiecutter-dj-control-room-plugin
 ```
 
 Or manually create the structure shown above.
@@ -487,6 +511,11 @@ Check out these official panels for reference:
 - [GitHub Discussions](https://github.com/yassi/dj-control-room/discussions)
 - [Issue Tracker](https://github.com/yassi/dj-control-room/issues)
 - [Example Panels](https://github.com/yassi/dj-control-room/tree/main/example_project/example_project/example_panels.py)
+
+## Resources
+
+- **[Cookiecutter Template](https://github.com/yassi/cookiecutter-dj-control-room-plugin)** - Official panel template generator
+- **[djangocontrolroom.com](https://djangocontrolroom.com)** - Tutorials and examples
 
 ## Next Steps
 

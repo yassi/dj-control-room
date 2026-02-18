@@ -165,7 +165,18 @@ DJ_CONTROL_ROOM_SETTINGS = {
 
 ## Creating Custom Panels
 
-Want to create your own panel? It's easy!
+The fastest way to create a new panel is using our official cookiecutter template:
+
+```bash
+pip install cookiecutter
+cookiecutter https://github.com/yassi/cookiecutter-dj-control-room-plugin
+```
+
+This generates a complete panel structure with Django admin integration, tests, documentation, and Docker setup.
+
+### Manual Panel Creation
+
+You can also create panels manually by implementing a simple interface:
 
 ```python
 # my_panel/panel.py
@@ -185,7 +196,7 @@ class MyPanel:
 my_panel = "my_panel.panel:MyPanel"
 ```
 
-See our [Creating Panels Guide](docs/creating-panels.md) for full documentation.
+See our [Creating Panels Guide](docs/creating-panels.md) for full documentation or use the [cookiecutter template](https://github.com/yassi/cookiecutter-dj-control-room-plugin) to get started quickly.
 
 ## Security
 

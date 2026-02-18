@@ -62,7 +62,8 @@ Visit: `http://localhost:8000/admin/dj-control-room/`
 
 ### Developer Guides
 
-- **[Creating Panels](creating-panels.md)** - Build custom panels
+- **[Creating Panels](creating-panels.md)** - Build custom panels using our cookiecutter template
+- **[Cookiecutter Template](https://github.com/yassi/cookiecutter-dj-control-room-plugin)** - Official panel template generator
 - **[API Reference](api-reference.md)** - Complete API documentation
 
 ### Panel Documentation
