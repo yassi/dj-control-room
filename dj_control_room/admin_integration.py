@@ -8,6 +8,7 @@ import logging
 from django.contrib import admin
 from django.db import models
 from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 from .registry import registry
 
@@ -70,6 +71,12 @@ def _register_panel_admin(panel):
     
     model_class = type(model_name, (models.Model,), model_attrs)
     
+    # Get the URL name from the panel (default to "index" if method missing)
+    url_name = getattr(panel, 'get_url_name', lambda: 'index')()
+    
+    # Build the panel URL using reverse
+    panel_url = reverse(f'{panel.id}:{url_name}')
+    
     # Create the admin class that redirects to the panel URL
     def make_changelist_view(panel_url):
         """Create a changelist view that redirects to the panel."""
@@ -78,7 +85,7 @@ def _register_panel_admin(panel):
         return changelist_view
     
     admin_attrs = {
-        'changelist_view': make_changelist_view(panel.get_url()),
+        'changelist_view': make_changelist_view(panel_url),
         'has_add_permission': lambda self, request: False,
         'has_change_permission': lambda self, request, obj=None: request.user.is_staff,
         'has_delete_permission': lambda self, request, obj=None: False,
