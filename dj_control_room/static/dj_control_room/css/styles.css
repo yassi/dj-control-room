@@ -123,8 +123,35 @@
     color: #417690;
 }
 
+.panel-status-coming-soon {
+    background: #fff3cd;
+    color: #856404;
+}
+
 .panel-not-installed {
     /* Not-installed panels use same styling as installed */
+}
+
+.panel-coming-soon {
+    opacity: 0.55;
+    cursor: default;
+}
+
+.panel-coming-soon:hover {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    transform: none;
+}
+
+.panel-coming-soon .panel-icon {
+    color: var(--body-quiet-color, #999);
+}
+
+.panel-link-coming-soon {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--body-quiet-color, #999);
+    cursor: default;
+    font-style: italic;
 }
 
 .panel-link-install {
@@ -708,6 +735,15 @@
     .panel-status-not-installed {
         background: rgba(121, 174, 200, 0.15);
         color: #79aec8;
+    }
+
+    .panel-coming-soon {
+        opacity: 0.45;
+    }
+
+    .panel-status-coming-soon {
+        background: rgba(255, 193, 7, 0.15);
+        color: #ffc107;
     }
 
     .more-panels-section {

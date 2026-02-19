@@ -42,6 +42,26 @@ FEATURED_PANELS = [
         "docs_url": "https://github.com/yassi/dj-urls-panel",
         "pypi_url": "https://pypi.org/project/dj-urls-panel/",
     },
+    {
+        "id": "dj_signals_panel",
+        "name": "Signals Panel",
+        "description": "Monitor signals, debug connections.",
+        "icon": "link",
+        "coming_soon": True,
+        "package": "dj-signals-panel",
+        "docs_url": "https://github.com/yassi/dj-signals-panel",
+        "pypi_url": "https://pypi.org/project/dj-signals-panel/",
+    },
+    {
+        "id": "dj_error _panel",
+        "name": "Error Panel",
+        "description": "Monitor errors, stack traces, and exceptions.",
+        "icon": "link",
+        "coming_soon": True,
+        "package": "dj-error-panel",
+        "docs_url": "https://github.com/yassi/dj-error-panel",
+        "pypi_url": "https://pypi.org/project/dj-error-panel/",
+    },
 ]
 
 

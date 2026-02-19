@@ -76,15 +76,17 @@ def get_featured_panels():
             panel_data = get_panel_data(installed_panel)
         else:
             # Panel not installed - use metadata and link to marketing page
+            coming_soon = featured_meta.get("coming_soon", False)
             panel_data = {
                 "id": panel_id,
                 "name": featured_meta["name"],
                 "description": featured_meta["description"],
                 "icon": featured_meta["icon"],
                 "url": reverse('dj_control_room:install_panel', args=[panel_id]),
-                "status": "not_installed",
-                "status_label": "NOT INSTALLED",
+                "status": "coming_soon" if coming_soon else "not_installed",
+                "status_label": "COMING SOON" if coming_soon else "NOT INSTALLED",
                 "installed": False,
+                "coming_soon": coming_soon,
                 "featured": True,
                 "package": featured_meta["package"],
                 "docs_url": featured_meta.get("docs_url"),

@@ -15,7 +15,7 @@
         <h2>FEATURED PANELS</h2>
         <div class="panels-grid">
             {% for panel in featured_panels %}
-            <div class="panel-card {% if not panel.installed %}panel-not-installed{% endif %}">
+            <div class="panel-card {% if panel.coming_soon %}panel-coming-soon{% elif not panel.installed %}panel-not-installed{% endif %}">
                 <div class="panel-card-header">
                     <div class="panel-icon panel-icon-{{ panel.icon }}">
                         {% if panel.icon == "database" %}
@@ -54,13 +54,17 @@
                         </svg>
                         {% endif %}
                     </div>
-                    {% if not panel.installed %}
-                    <div class="panel-status panel-status-not-installed">
-                        NOT INSTALLED
-                    </div>
-                    {% else %}
+                    {% if panel.installed %}
                     <div class="panel-status panel-status-installed">
                         INSTALLED
+                    </div>
+                    {% elif panel.coming_soon %}
+                    <div class="panel-status panel-status-coming-soon">
+                        COMING SOON
+                    </div>
+                    {% else %}
+                    <div class="panel-status panel-status-not-installed">
+                        NOT INSTALLED
                     </div>
                     {% endif %}
                 </div>
@@ -71,6 +75,10 @@
                     <a href="{{ panel.url }}" class="panel-link">
                         View panel <span class="arrow">→</span>
                     </a>
+                    {% elif panel.coming_soon %}
+                    <span class="panel-link-coming-soon">
+                        Coming soon
+                    </span>
                     {% else %}
                     <a href="{{ panel.url }}" class="panel-link panel-link-install">
                         Install panel <span class="arrow">→</span>
