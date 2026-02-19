@@ -193,7 +193,6 @@
 
 .panel-link:hover {
     color: var(--link-hover-color, #2e5266);
-    gap: 10px;
 }
 
 .panel-link .arrow {
@@ -206,36 +205,69 @@
 }
 
 .more-panels-section {
-    text-align: center;
-    padding: 60px 20px;
-    /* background: var(--darkened-bg, #f9f9f9); */
-    border: 1px dashed var(--border-color, #ddd);
-    border-radius: 8px;
+    margin-bottom: 40px;
 }
 
-.more-panels-icon {
-    width: 48px;
-    height: 48px;
-    margin: 0 auto 20px;
-    background: var(--body-bg, white);
+.more-panels-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 1px solid var(--border-color, #e0e0e0);
     border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.more-panels-half {
+    padding: 24px;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--body-quiet-color, #999);
+    flex-direction: column;
+    gap: 12px;
 }
 
-.more-panels-section h3 {
-    margin: 0 0 8px 0;
+.more-panels-half+.more-panels-half {
+    border-left: 1px solid var(--border-color, #e0e0e0);
+}
+
+.more-panels-half h3 {
+    margin: 0;
     font-size: 18px;
     font-weight: 500;
     color: var(--body-fg, #333);
 }
 
-.more-panels-section p {
+.more-panels-half p {
     margin: 0;
     color: var(--body-quiet-color, #666);
     font-size: 14px;
+    flex: 1;
+}
+
+.more-panels-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.panel-icon-more-coming {
+    background: rgba(76, 175, 80, 0.12);
+    color: #4caf50;
+}
+
+.panel-icon-build-own {
+    background: rgba(76, 175, 80, 0.12);
+    color: #4caf50;
+}
+
+.panel-link-code {
+    font-family: var(--font-family-monospace, monospace);
+    font-size: 13px;
+    background: var(--darkened-bg, #f5f5f5);
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--border-color, #e0e0e0);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
 }
 
 /* ===== INSTALL PANEL PAGE STYLES (Simple) ===== */
@@ -746,12 +778,15 @@
         color: #ffc107;
     }
 
-    .more-panels-section {
-        /* background: rgba(255, 255, 255, 0.03); */
+    .more-panels-block {
         border-color: var(--border-color, #444);
     }
 
-    .more-panels-icon {
+    .more-panels-half+.more-panels-half {
+        border-left-color: var(--border-color, #444);
+    }
+
+    .panel-link-code {
         background: var(--darkened-bg, #2d2d2d);
         border-color: var(--border-color, #444);
     }
