@@ -60,7 +60,7 @@
 }
 
 .panel-card {
-    background: var(--darkened-bg, #f9f9f9);
+    /* background: var(--darkened-bg, #f9f9f9); */
     border: 1px solid var(--border-color, #e0e0e0);
     border-radius: 8px;
     padding: 24px;
@@ -181,7 +181,7 @@
 .more-panels-section {
     text-align: center;
     padding: 60px 20px;
-    background: var(--darkened-bg, #f9f9f9);
+    /* background: var(--darkened-bg, #f9f9f9); */
     border: 1px dashed var(--border-color, #ddd);
     border-radius: 8px;
 }
@@ -685,7 +685,7 @@
     }
 
     .panel-card {
-        background: var(--darkened-bg, #2d2d2d);
+        /* background: var(--darkened-bg, #2d2d2d); */
         border-color: var(--border-color, #444);
     }
 
@@ -711,7 +711,7 @@
     }
 
     .more-panels-section {
-        background: rgba(255, 255, 255, 0.03);
+        /* background: rgba(255, 255, 255, 0.03); */
         border-color: var(--border-color, #444);
     }
 
