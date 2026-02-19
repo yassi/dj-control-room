@@ -11,8 +11,38 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 
 from .registry import registry
+from .utils import should_register_panel_admin
 
 logger = logging.getLogger(__name__)
+
+
+def unregister_panel_placeholders():
+    """
+    Unregister panel placeholder models from the admin so they only appear
+    under "DJ Control Room" (via our proxy models).
+
+    Call this from admin.py when dj_control_room is listed after panel apps
+    in INSTALLED_APPS, so all panel admin modules have already been imported.
+    Skips panels where the user has opted in to show in both places
+    (REGISTER_PANELS_IN_ADMIN or PANEL_ADMIN_REGISTRATION).
+    """
+    registry.autodiscover()
+    to_unregister = []
+    for model, _ in list(admin.site._registry.items()):
+        try:
+            if not getattr(model._meta, 'managed', True) and model._meta.app_label:
+                # Likely a panel placeholder; check if we have a panel with this app_label
+                panel_id = model._meta.app_label
+                if registry.is_registered(panel_id) and not should_register_panel_admin(panel_id):
+                    to_unregister.append(model)
+        except Exception:
+            continue
+    for model in to_unregister:
+        try:
+            admin.site.unregister(model)
+            logger.debug(f"Unregistered panel placeholder: {model._meta.label}")
+        except Exception as e:
+            logger.warning(f"Could not unregister {model._meta.label}: {e}")
 
 
 def register_panel_admins():
@@ -73,19 +103,20 @@ def _register_panel_admin(panel):
     
     # Get the URL name from the panel (default to "index" if method missing)
     url_name = getattr(panel, 'get_url_name', lambda: 'index')()
-    
-    # Build the panel URL using reverse
-    panel_url = reverse(f'{panel.id}:{url_name}')
-    
-    # Create the admin class that redirects to the panel URL
-    def make_changelist_view(panel_url):
+    panel_id = panel.id
+
+    # Build redirect URL at request time so reverse() uses the loaded URLconf
+    def make_changelist_view(panel_id, url_name):
         """Create a changelist view that redirects to the panel."""
+
         def changelist_view(self, request, extra_context=None):
+            panel_url = reverse(f"{panel_id}:{url_name}")
             return HttpResponseRedirect(panel_url)
+
         return changelist_view
-    
+
     admin_attrs = {
-        'changelist_view': make_changelist_view(panel_url),
+        'changelist_view': make_changelist_view(panel_id, url_name),
         'has_add_permission': lambda self, request: False,
         'has_change_permission': lambda self, request, obj=None: request.user.is_staff,
         'has_delete_permission': lambda self, request, obj=None: False,

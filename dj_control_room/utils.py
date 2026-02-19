@@ -34,15 +34,15 @@ def should_register_panel_admin(panel_id=None):
     """
     config = getattr(settings, 'DJ_CONTROL_ROOM', {})
     
-    # Check for simple boolean setting
+    # Per-panel settings take precedence when provided (explicit allow/deny per panel)
+    if panel_id and 'PANEL_ADMIN_REGISTRATION' in config:
+        panel_settings = config['PANEL_ADMIN_REGISTRATION']
+        if panel_id in panel_settings or '*' in panel_settings:
+            return panel_settings.get(panel_id, panel_settings.get('*', False))
+    
+    # Global setting for all panels
     if 'REGISTER_PANELS_IN_ADMIN' in config:
         return config['REGISTER_PANELS_IN_ADMIN']
-    
-    # Check for granular per-panel settings
-    if 'PANEL_ADMIN_REGISTRATION' in config and panel_id:
-        panel_settings = config['PANEL_ADMIN_REGISTRATION']
-        # Check specific panel first, then fall back to wildcard default
-        return panel_settings.get(panel_id, panel_settings.get('*', False))
     
     # Default: don't register in admin (only show in Control Room)
     return False

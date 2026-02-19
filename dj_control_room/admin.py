@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
+from .admin_integration import unregister_panel_placeholders
 from .models import DjControlRoomDashboard
 
 
@@ -30,3 +31,8 @@ class DjControlRoomDashboardAdmin(admin.ModelAdmin):
     def has_view_permission(self, request, obj=None):
         # Allow staff members to view the dashboard
         return request.user.is_staff
+
+
+# Unregister panel placeholders so they only appear under DJ Control Room.
+# Requires dj_control_room to be listed after panel apps in INSTALLED_APPS.
+unregister_panel_placeholders()

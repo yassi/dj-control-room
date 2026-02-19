@@ -31,10 +31,10 @@ pip install dj-control-room[all]
 # settings.py
 INSTALLED_APPS = [
     # ...
-    'dj_control_room',
     'dj_redis_panel',
     'dj_cache_panel',
     'dj_urls_panel',
+    'dj_control_room',  # list after panels so they appear in one section
 ]
 ```
 

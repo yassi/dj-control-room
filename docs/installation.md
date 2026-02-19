@@ -51,7 +51,7 @@ pip install dj-control-room[all]
 
 ### 1. Add to INSTALLED_APPS
 
-Add `dj_control_room` and any installed panels to your `INSTALLED_APPS`:
+Add your panel apps first, then `dj_control_room` (so all panels appear under one "DJ Control Room" section in the admin sidebar):
 
 ```python
 # settings.py
@@ -64,15 +64,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
-    # Django Control Room (Required)
-    'dj_control_room',
-    
-    # Panels (Add the ones you installed)
+    # Panels (add the ones you installed)
     'dj_redis_panel',   # If you installed [redis]
     'dj_cache_panel',   # If you installed [cache]
     'dj_urls_panel',    # If you installed [urls]
     'dj_celery_panel',  # If you installed [celery]
     'dj_signals_panel', # If you installed [signals]
+    
+    # Django Control Room (list after panels so they appear in one section)
+    'dj_control_room',
     
     # Your apps
     'myapp',

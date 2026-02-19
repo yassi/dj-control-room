@@ -79,14 +79,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
-    # Django Control Room
-    'dj_control_room',
-    
     # Add any panels you installed
     'dj_redis_panel',
     'dj_cache_panel',
     'dj_urls_panel',
     
+    # Then add Django Control Room
+    'dj_control_room',
     # Your apps
     # ...
 ]
