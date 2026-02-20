@@ -7,6 +7,7 @@ from django.contrib import admin
 from django.urls import reverse
 
 from .featured_panels import get_featured_panel_metadata
+from .registry import registry
 from .utils import get_panel_config_status, get_featured_panels, get_community_panels
 
 
@@ -49,23 +50,45 @@ def install_panel(request, panel_id):
     panel_meta = get_featured_panel_metadata(panel_id)
 
     if not panel_meta:
-        return redirect("dj_control_room:index")
+        # Not a featured panel — check if it's a registered community panel
+        # that has declared enough metadata to render the install page.
+        community_panel = registry.get_panel(panel_id)
+        if community_panel and getattr(community_panel, "package", None):
+            panel_meta = {
+                "id": community_panel.id,
+                "name": community_panel.name,
+                "description": community_panel.description,
+                "icon": community_panel.icon,
+                "package": community_panel.package,
+                "docs_url": getattr(community_panel, "docs_url", None),
+                "pypi_url": getattr(community_panel, "pypi_url", None),
+            }
+        else:
+            return redirect("dj_control_room:index")
 
-    panel_app_name = panel_meta["package"].replace("-", "_")
+    # Resolve the Django app name for INSTALLED_APPS checking:
+    # 1. panel instance's explicit app_name attribute (most accurate)
+    # 2. derive from the package name  (hyphens → underscores)
+    installed_panel = registry.get_panel(panel_id)
+    panel_app_name = getattr(installed_panel, "app_name", None) or panel_meta[
+        "package"
+    ].replace("-", "_")
+
     config = get_panel_config_status(panel_id, panel_app_name)
 
-    installed_panel = config["installed_panel"]
+    # config["installed_panel"] is the same object we may have already fetched
+    # above, but we use the config value to stay consistent.
+    panel_instance = config["installed_panel"]
     panel_url = None
-    if config["urls_registered"] and installed_panel:
+    if config["urls_registered"] and panel_instance:
         try:
-            url_name = getattr(installed_panel, "get_url_name", lambda: "index")()
-            panel_url = reverse(f"{installed_panel.id}:{url_name}")
+            url_name = getattr(panel_instance, "get_url_name", lambda: "index")()
+            panel_url = reverse(f"{panel_instance.id}:{url_name}")
         except Exception:
             pass
 
     context.update(
         {
-            "title": f"Install {panel_meta['name']}",
             "panel": panel_meta,
             "is_installed": config["pip_installed"],
             "is_in_installed_apps": config["in_installed_apps"],

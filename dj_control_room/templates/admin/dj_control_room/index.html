@@ -138,13 +138,22 @@
                         </svg>
                         {% endif %}
                     </div>
+                    <div class="panel-status panel-status-installed">
+                        INSTALLED
+                    </div>
                 </div>
                 <div class="panel-card-body">
                     <h3>{{ panel.name }}</h3>
                     <p>{{ panel.description }}</p>
+                    {% if panel.configured %}
                     <a href="{{ panel.url }}" class="panel-link">
                         View panel <span class="arrow">→</span>
                     </a>
+                    {% else %}
+                    <a href="{{ panel.url }}" class="panel-link panel-link-configure">
+                        Configure <span class="arrow">→</span>
+                    </a>
+                    {% endif %}
                 </div>
             </div>
             {% endfor %}

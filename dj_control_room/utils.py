@@ -102,18 +102,23 @@ def get_panel_data(panel):
         dict: Panel data dictionary
     """
     featured = is_featured_panel(panel.id)
-    panel_app_name = panel.id  # entry point IDs match the Django app name
+
+    # Prefer the panel's explicit app_name; fall back to panel.id (the entry
+    # point name, which matches the app label for first-party panels).
+    panel_app_name = getattr(panel, "app_name", None) or panel.id
     config = get_panel_config_status(panel.id, panel_app_name)
 
-    if config["urls_registered"]:
+    has_install_page = featured or bool(getattr(panel, "package", None))
+
+    if config["is_configured"]:
         url_name = getattr(panel, "get_url_name", lambda: "index")()
         url = reverse(f"{panel.id}:{url_name}")
-    elif featured:
+    elif has_install_page:
         url = reverse("dj_control_room:install_panel", args=[panel.id])
     else:
         url = "#"
 
-    if not config["urls_registered"]:
+    if not config["is_configured"]:
         logger.warning(
             f"Panel '{panel.id}' is registered but its URLs could not be resolved. "
             "Make sure the panel is in INSTALLED_APPS and its URLs are included."
@@ -128,6 +133,9 @@ def get_panel_data(panel):
         "installed": True,
         "configured": config["is_configured"],
         "featured": featured,
+        "package": getattr(panel, "package", None),
+        "docs_url": getattr(panel, "docs_url", None),
+        "pypi_url": getattr(panel, "pypi_url", None),
     }
 
 
