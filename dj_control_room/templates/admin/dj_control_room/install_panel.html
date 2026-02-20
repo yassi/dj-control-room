@@ -45,14 +45,15 @@
             <span class="install-status-badge install-status-not-installed">Not installed</span>
             {% endif %}
             <p class="install-simple-description">{{ panel.description }}</p>
-            {% if is_installed and panel_url %}
-            <a href="{{ panel_url }}" class="button install-panel-open-btn">Open {{ panel.name }} →</a>
+            {% if is_configured and panel_url %}
+            <a href="{{ panel_url }}" class="panel-link install-panel-open-btn">Open {{ panel.name }} <span class="arrow">→</span></a>
             {% endif %}
         </div>
 
-        {# Quick Features based on panel type #}
+        {# Quick Features — only shown for featured panels with known feature sets #}
+        {% if panel.id == 'dj_redis_panel' or panel.id == 'dj_cache_panel' or panel.id == 'dj_celery_panel' or panel.id == 'dj_urls_panel' %}
         <div class="install-simple-features">
-            {% if panel.id == 'redis' %}
+            {% if panel.id == 'dj_redis_panel' %}
             <div class="install-simple-feature">
                 <div class="install-simple-feature-icon">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -85,7 +86,7 @@
                     <strong>View TTL &<br>key details</strong>
                 </div>
             </div>
-            {% elif panel.id == 'cache' %}
+            {% elif panel.id == 'dj_cache_panel' %}
             <div class="install-simple-feature">
                 <div class="install-simple-feature-icon">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -121,7 +122,42 @@
                     <strong>Clear cache<br>entries</strong>
                 </div>
             </div>
-            {% elif panel.id == 'urls' %}
+            {% elif panel.id == 'dj_celery_panel' %}
+            <div class="install-simple-feature">
+                <div class="install-simple-feature-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+                        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+                    </svg>
+                </div>
+                <div class="install-simple-feature-text">
+                    <strong>Monitor active<br>workers</strong>
+                </div>
+            </div>
+            <div class="install-simple-feature">
+                <div class="install-simple-feature-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="20" x2="18" y2="10"/>
+                        <line x1="12" y1="20" x2="12" y2="4"/>
+                        <line x1="6" y1="20" x2="6" y2="14"/>
+                    </svg>
+                </div>
+                <div class="install-simple-feature-text">
+                    <strong>Track task<br>queue depths</strong>
+                </div>
+            </div>
+            <div class="install-simple-feature">
+                <div class="install-simple-feature-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                </div>
+                <div class="install-simple-feature-text">
+                    <strong>Inspect task<br>history & results</strong>
+                </div>
+            </div>
+            {% elif panel.id == 'dj_urls_panel' %}
             <div class="install-simple-feature">
                 <div class="install-simple-feature-icon">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -157,43 +193,9 @@
                     <strong>View parameters<br>& patterns</strong>
                 </div>
             </div>
-            {% else %}
-            {# Generic features for unknown panels #}
-            <div class="install-simple-feature">
-                <div class="install-simple-feature-icon">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-                    </svg>
-                </div>
-                <div class="install-simple-feature-text">
-                    <strong>Real-time<br>monitoring</strong>
-                </div>
-            </div>
-            <div class="install-simple-feature">
-                <div class="install-simple-feature-icon">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <line x1="18" y1="20" x2="18" y2="10"/>
-                        <line x1="12" y1="20" x2="12" y2="4"/>
-                        <line x1="6" y1="20" x2="6" y2="14"/>
-                    </svg>
-                </div>
-                <div class="install-simple-feature-text">
-                    <strong>Detailed<br>insights</strong>
-                </div>
-            </div>
-            <div class="install-simple-feature">
-                <div class="install-simple-feature-icon">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="3"/>
-                        <path d="M12 1v6m0 6v6M5.64 5.64l4.24 4.24m4.24 4.24l4.24 4.24M1 12h6m6 0h6M5.64 18.36l4.24-4.24m4.24-4.24l4.24-4.24"/>
-                    </svg>
-                </div>
-                <div class="install-simple-feature-text">
-                    <strong>Powerful<br>management</strong>
-                </div>
-            </div>
             {% endif %}
         </div>
+        {% endif %}
 
         {# Installation Steps #}
         <div class="install-simple-steps">
