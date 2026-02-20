@@ -83,7 +83,7 @@ def install_panel(request, panel_id):
     if config["urls_registered"] and panel_instance:
         try:
             url_name = getattr(panel_instance, "get_url_name", lambda: "index")()
-            panel_url = reverse(f"{panel_instance.id}:{url_name}")
+            panel_url = reverse(f"{panel_app_name}:{url_name}")
         except Exception:
             pass
 
