@@ -3,17 +3,6 @@
 
 {% block content %}
 <div class="control-room-container">
-    {% if is_installed %}
-    {# Panel is installed, redirect to it #}
-    <div class="install-panel-message">
-        <h2>✓ {{ panel.name }} is Installed</h2>
-        <p>This panel is already installed and ready to use.</p>
-        <p><a href="{{ panel_url }}" class="button">Go to {{ panel.name }} →</a></p>
-        <p><a href="{% url 'dj_control_room:index' %}">← Back to Control Room</a></p>
-    </div>
-    {% else %}
-    {# Panel not installed, show installation instructions #}
-    
     <div class="install-simple-container">
         {# Icon and Title #}
         <div class="install-simple-header">
@@ -49,8 +38,16 @@
                 </svg>
                 {% endif %}
             </div>
-            <h1>{{ panel.name }} not installed</h1>
+            <h1>{{ panel.name }}</h1>
+            {% if is_installed %}
+            <span class="install-status-badge install-status-installed">Installed</span>
+            {% else %}
+            <span class="install-status-badge install-status-not-installed">Not installed</span>
+            {% endif %}
             <p class="install-simple-description">{{ panel.description }}</p>
+            {% if is_installed and panel_url %}
+            <a href="{{ panel_url }}" class="button install-panel-open-btn">Open {{ panel.name }} →</a>
+            {% endif %}
         </div>
 
         {# Quick Features based on panel type #}
@@ -200,9 +197,9 @@
 
         {# Installation Steps #}
         <div class="install-simple-steps">
-            <div class="install-simple-step-card">
+            <div class="install-simple-step-card {% if is_installed %}step-card-done{% endif %}">
                 <div class="install-simple-step">
-                    <div class="install-simple-step-number">1</div>
+                    <div class="install-simple-step-number {% if is_installed %}step-done{% endif %}">{% if is_installed %}<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>{% else %}1{% endif %}</div>
                     <div class="install-simple-step-content">
                         <h3>Install the package</h3>
                         <div class="install-simple-code">
@@ -218,14 +215,14 @@
                 </div>
             </div>
 
-            <div class="install-simple-step-card">
+            <div class="install-simple-step-card {% if is_in_installed_apps %}step-card-done{% endif %}">
                 <div class="install-simple-step">
-                    <div class="install-simple-step-number">2</div>
+                    <div class="install-simple-step-number {% if is_in_installed_apps %}step-done{% endif %}">{% if is_in_installed_apps %}<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>{% else %}2{% endif %}</div>
                     <div class="install-simple-step-content">
                         <h3>Add to INSTALLED_APPS</h3>
                         <div class="install-simple-code">
-                            <code>INSTALLED_APPS = [<br>&nbsp;&nbsp;&nbsp;&nbsp;# ...<br>&nbsp;&nbsp;&nbsp;&nbsp;"{{ panel.package|cut:'-' }}",<br>]</code>
-                            <button class="install-simple-copy" onclick="copyToClipboard(this, 'INSTALLED_APPS = [\n    # ...\n    &quot;{{ panel.package|cut:'-' }}&quot;,\n]')">
+                            <code>INSTALLED_APPS = [<br>&nbsp;&nbsp;&nbsp;&nbsp;# ...<br>&nbsp;&nbsp;&nbsp;&nbsp;"{{ panel_app_name }}",<br>]</code>
+                            <button class="install-simple-copy" onclick="copyToClipboard(this, 'INSTALLED_APPS = [\n    # ...\n    &quot;{{ panel_app_name }}&quot;,\n]')">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
                                     <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
@@ -236,11 +233,29 @@
                 </div>
             </div>
 
-            <div class="install-simple-step-card">
+            <div class="install-simple-step-card {% if panel_url %}step-card-done{% endif %}">
                 <div class="install-simple-step">
-                    <div class="install-simple-step-number">3</div>
+                    <div class="install-simple-step-number {% if panel_url %}step-done{% endif %}">{% if panel_url %}<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>{% else %}3{% endif %}</div>
                     <div class="install-simple-step-content">
-                        <h3>Restart & visit the admin</h3>
+                        <h3>Add URLs to urls.py</h3>
+                        <div class="install-simple-code">
+                            <code>urlpatterns = [<br>&nbsp;&nbsp;&nbsp;&nbsp;# ...<br>&nbsp;&nbsp;&nbsp;&nbsp;path("{{ panel_url_prefix }}/", include("{{ panel.id }}.urls")),<br>]</code>
+                            <button class="install-simple-copy" onclick="copyToClipboard(this, 'urlpatterns = [\n    # ...\n    path(&quot;{{ panel_url_prefix }}/&quot;, include(&quot;{{ panel.id }}.urls&quot;)),\n]')">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="install-simple-step-card {% if is_configured %}step-card-done{% endif %}">
+                <div class="install-simple-step">
+                    <div class="install-simple-step-number {% if is_configured %}step-done{% endif %}">{% if is_configured %}<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>{% else %}4{% endif %}</div>
+                    <div class="install-simple-step-content">
+                        <h3>Restart &amp; visit the admin</h3>
                         <p>Restart your Django server and navigate to the Control Room in your admin. The {{ panel.name }} will appear automatically.</p>
                     </div>
                 </div>
@@ -277,6 +292,5 @@
         });
     }
     </script>
-    {% endif %}
 </div>
 {% endblock %}

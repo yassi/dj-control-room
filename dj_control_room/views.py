@@ -1,183 +1,86 @@
 from django.contrib.admin.views.decorators import staff_member_required
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.template.loader import get_template
+from django.template import TemplateDoesNotExist
+from django.http import HttpResponse
 from django.contrib import admin
 from django.urls import reverse
-import logging
 
-from .registry import registry
-from .featured_panels import FEATURED_PANELS, get_featured_panel_ids, is_featured_panel
-
-logger = logging.getLogger(__name__)
-
-
-def get_panel_data(panel):
-    """
-    Extract data from a registered panel instance.
-    
-    Args:
-        panel: Panel instance from registry
-        
-    Returns:
-        dict: Panel data dictionary
-    """
-    try:
-        # Build the panel URL using reverse
-        # Panels are mounted at root level (/{panel_id}/)
-        # Get the URL name (defaults to "index" if not implemented)
-        url_name = getattr(panel, 'get_url_name', lambda: 'index')()
-        url = reverse(f'{panel.id}:{url_name}')
-        
-        # Build panel data
-        return {
-            "id": panel.id,
-            "name": panel.name,
-            "description": panel.description,
-            "icon": panel.icon,
-            "url": url,
-            "installed": True,
-            "featured": is_featured_panel(panel.id),
-        }
-        
-    except Exception as e:
-        logger.error(
-            f"Error loading panel '{panel.id}': {e}",
-            exc_info=True
-        )
-        # Still show the panel but with error indicator
-        return {
-            "id": panel.id,
-            "name": panel.name,
-            "description": panel.description,
-            "icon": panel.icon,
-            "url": "#",
-            "installed": True,
-            "featured": is_featured_panel(panel.id),
-            "error": True,
-        }
-
-
-def get_featured_panels():
-    """
-    Get featured panels, marking which are installed.
-    
-    Returns:
-        list: List of featured panel data with installation status
-    """
-    featured_panels = []
-    
-    for featured_meta in FEATURED_PANELS:
-        panel_id = featured_meta["id"]
-        
-        # Check if this featured panel is actually installed
-        installed_panel = registry.get_panel(panel_id)
-        
-        if installed_panel:
-            # Panel is installed - use real data
-            panel_data = get_panel_data(installed_panel)
-        else:
-            # Panel not installed - use metadata and link to marketing page
-            coming_soon = featured_meta.get("coming_soon", False)
-            panel_data = {
-                "id": panel_id,
-                "name": featured_meta["name"],
-                "description": featured_meta["description"],
-                "icon": featured_meta["icon"],
-                "url": reverse('dj_control_room:install_panel', args=[panel_id]),
-                "status": "coming_soon" if coming_soon else "not_installed",
-                "status_label": "COMING SOON" if coming_soon else "NOT INSTALLED",
-                "installed": False,
-                "coming_soon": coming_soon,
-                "featured": True,
-                "package": featured_meta["package"],
-                "docs_url": featured_meta.get("docs_url"),
-                "pypi_url": featured_meta.get("pypi_url"),
-            }
-        
-        featured_panels.append(panel_data)
-    
-    return featured_panels
-
-
-def get_community_panels():
-    """
-    Get community (non-featured) panels.
-    
-    Returns:
-        list: List of community panel data
-    """
-    featured_ids = get_featured_panel_ids()
-    community_panels = []
-    
-    for panel in registry.get_panels():
-        if panel.id not in featured_ids:
-            panel_data = get_panel_data(panel)
-            community_panels.append(panel_data)
-    
-    return community_panels
+from .featured_panels import get_featured_panel_metadata
+from .utils import get_panel_config_status, get_featured_panels, get_community_panels
 
 
 @staff_member_required
 def index(request):
     """
     Display panel dashboard.
-    
+
     Shows featured panels first (with install prompts if not installed),
     followed by community panels.
     """
     context = admin.site.each_context(request)
-    
+
     featured_panels = get_featured_panels()
     community_panels = get_community_panels()
 
-    context.update({
-        "title": "",
-        "featured_panels": featured_panels,
-        "community_panels": community_panels,
-        "has_community_panels": len(community_panels) > 0,
-    })
-    
+    context.update(
+        {
+            "title": "",
+            "featured_panels": featured_panels,
+            "community_panels": community_panels,
+            "has_community_panels": len(community_panels) > 0,
+        }
+    )
+
     return render(request, "admin/dj_control_room/index.html", context)
 
 
 @staff_member_required
 def install_panel(request, panel_id):
     """
-    Marketing/installation page for uninstalled featured panels.
-    
-    Shows information about the panel and how to install it.
-    Uses panel-specific template if available, otherwise falls back to generic.
+    Installation guide page for featured panels.
+
+    Shows the panel's features and step-by-step configuration instructions.
+    Accessible whether or not the panel is currently installed/configured.
+    Uses a panel-specific template if available, otherwise falls back to generic.
     """
-    from django.shortcuts import redirect
-    from django.template.loader import get_template
-    from django.template import TemplateDoesNotExist
-    from django.http import HttpResponse
-    from .featured_panels import get_featured_panel_metadata
-    
     context = admin.site.each_context(request)
-    
-    # Get featured panel metadata
+
     panel_meta = get_featured_panel_metadata(panel_id)
-    
+
     if not panel_meta:
-        # Not a featured panel, redirect to dashboard
-        return redirect('dj_control_room:index')
-    
-    # Check if panel is actually installed
-    installed_panel = registry.get_panel(panel_id)
-    
-    context.update({
-        "title": f"Install {panel_meta['name']}",
-        "panel": panel_meta,
-        "is_installed": installed_panel is not None,
-        "panel_url": installed_panel.get_url() if installed_panel else None,
-    })
-    
-    # Try to load panel-specific template first, fall back to generic
+        return redirect("dj_control_room:index")
+
+    panel_app_name = panel_meta["package"].replace("-", "_")
+    config = get_panel_config_status(panel_id, panel_app_name)
+
+    installed_panel = config["installed_panel"]
+    panel_url = None
+    if config["urls_registered"] and installed_panel:
+        try:
+            url_name = getattr(installed_panel, "get_url_name", lambda: "index")()
+            panel_url = reverse(f"{installed_panel.id}:{url_name}")
+        except Exception:
+            pass
+
+    context.update(
+        {
+            "title": f"Install {panel_meta['name']}",
+            "panel": panel_meta,
+            "is_installed": config["pip_installed"],
+            "is_in_installed_apps": config["in_installed_apps"],
+            "is_configured": config["is_configured"],
+            "panel_url": panel_url,
+            "panel_url_prefix": f"admin/{panel_id}",
+            "panel_app_name": panel_app_name,
+        }
+    )
+
     template_name = f"admin/dj_control_room/install_panel_{panel_id}.html"
     try:
         template = get_template(template_name)
     except TemplateDoesNotExist:
         template_name = "admin/dj_control_room/install_panel.html"
         template = get_template(template_name)
-    
+
     return HttpResponse(template.render(context, request))

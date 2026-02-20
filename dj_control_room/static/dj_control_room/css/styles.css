@@ -159,6 +159,21 @@
     font-weight: 600;
 }
 
+.panel-link-configure {
+    color: #e67e22;
+    font-weight: 600;
+}
+
+@media (prefers-color-scheme: dark) {
+    .panel-link-configure {
+        color: #f0a050;
+    }
+}
+
+html[data-theme="dark"] .panel-link-configure {
+    color: #f0a050;
+}
+
 .panel-card-body h3 {
     margin: 0 0 8px 0;
     font-size: 18px;
@@ -384,6 +399,44 @@
     justify-content: center;
     font-weight: 600;
     font-size: 16px;
+}
+
+.install-status-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+}
+
+.install-status-installed {
+    background: #d4edda;
+    color: #155724;
+}
+
+.install-status-not-installed {
+    background: #e8f4f8;
+    color: #417690;
+}
+
+.install-simple-step-number.step-done {
+    background: #4caf50;
+}
+
+.step-card-done {
+    opacity: 0.5;
+}
+
+.step-card-done:hover {
+    box-shadow: none;
+}
+
+.install-panel-open-btn {
+    display: inline-block;
+    margin-top: 16px;
 }
 
 .install-simple-step-content {
@@ -677,6 +730,20 @@
 
     .install-simple-docs {
         border-top-color: var(--border-color, #444);
+    }
+
+    .install-status-installed {
+        background: rgba(76, 175, 80, 0.2);
+        color: #6fbf73;
+    }
+
+    .install-status-not-installed {
+        background: rgba(121, 174, 200, 0.15);
+        color: #79aec8;
+    }
+
+    .step-card-done {
+        border-color: rgba(76, 175, 80, 0.25);
     }
 
     .install-simple-step-card {

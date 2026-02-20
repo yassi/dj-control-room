@@ -71,9 +71,13 @@
                 <div class="panel-card-body">
                     <h3>{{ panel.name }}</h3>
                     <p>{{ panel.description }}</p>
-                    {% if panel.installed %}
+                    {% if panel.configured %}
                     <a href="{{ panel.url }}" class="panel-link">
                         View panel <span class="arrow">→</span>
+                    </a>
+                    {% elif panel.installed %}
+                    <a href="{{ panel.url }}" class="panel-link panel-link-configure">
+                        Configure <span class="arrow">→</span>
                     </a>
                     {% elif panel.coming_soon %}
                     <span class="panel-link-coming-soon">
