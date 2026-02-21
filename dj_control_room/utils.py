@@ -109,7 +109,7 @@ def get_panel_data(panel):
     panel_app_name = panel.app_name
     config = get_panel_config_status(panel_id, panel_app_name)
 
-    has_install_page = featured or bool(getattr(panel, "package", None))
+    has_install_page = True
 
     if config["is_configured"]:
         url_name = getattr(panel, "get_url_name", lambda: "index")()

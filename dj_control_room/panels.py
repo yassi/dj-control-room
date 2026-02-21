@@ -24,9 +24,10 @@ class BasePanel:
             Defaults to the normalized PyPI distribution name (hyphens replaced
             with underscores), which is typically the same value. Set this
             explicitly only when your app label differs from the dist name.
-        package (str): PyPI package name, e.g. "dj-example-panel".
-            When set, enables the install/configure page for this panel and
-            provides the ``pip install`` snippet.
+        package (str): PyPI package name override, e.g. "dj-example-panel".
+            Defaults to the distribution name from the entry point metadata,
+            so this only needs to be set if you want to display a different
+            package name on the install page.
         docs_url (str): URL to the panel's documentation (optional).
         pypi_url (str): URL to the panel's PyPI page (optional).
 
@@ -43,8 +44,7 @@ class BasePanel:
     description = None
     icon = "default"
 
-    # Optional — provide these to enable the install/configure page and accurate
-    # INSTALLED_APPS detection for community panels.
+    # Optional — the registry stamps these from dist metadata if not set.
     package = None
     app_name = None
     docs_url = None

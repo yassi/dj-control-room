@@ -53,7 +53,7 @@ def install_panel(request, panel_id):
         # Not a featured panel — check if it's a registered community panel
         # that has declared enough metadata to render the install page.
         community_panel = registry.get_panel(panel_id)
-        if community_panel and getattr(community_panel, "package", None):
+        if community_panel:
             panel_meta = {
                 "id": community_panel._registry_id,
                 "name": community_panel.name,
@@ -66,9 +66,9 @@ def install_panel(request, panel_id):
         else:
             return redirect("dj_control_room:index")
 
-    # Resolve the Django app name for INSTALLED_APPS checking:
-    # 1. panel instance's explicit app_name attribute (most accurate)
-    # 2. derive from the package name  (hyphens → underscores)
+    # app_name is stamped onto every installed panel by the registry at
+    # discovery time. For uninstalled featured panels, fall back to deriving
+    # it from the package name (hyphens → underscores).
     installed_panel = registry.get_panel(panel_id)
     panel_app_name = getattr(installed_panel, "app_name", None) or panel_meta[
         "package"

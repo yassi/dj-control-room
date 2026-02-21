@@ -94,12 +94,15 @@ class PanelRegistry:
 
         panel_id = _normalize_package_name(dist_name)
 
-        # Stamp the derived ID and a resolved app_name onto the panel instance
-        # so downstream code never needs to touch panel.id (which is no longer
-        # part of the panel contract).
+        # Stamp the derived ID, dist name, app_name, and package onto the panel
+        # instance so downstream code never needs to touch panel.id (which is no
+        # longer part of the panel contract) and package is always available.
         panel._registry_id = panel_id
+        panel._dist_name = dist_name
         if not getattr(panel, "app_name", None):
             panel.app_name = panel_id
+        if not getattr(panel, "package", None):
+            panel.package = dist_name
 
         # Guard: if this ID belongs to a featured panel, verify the entry point
         # comes from the expected PyPI distribution. This prevents a malicious
