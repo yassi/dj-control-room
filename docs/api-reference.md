@@ -17,30 +17,27 @@ class MyPanel:
     """
     Panel class for Django Control Room.
     """
-    
+
     # Required attributes
-    id: str
     name: str
     description: str
     icon: str
-    
+
+    # Optional attributes
+    app_name: str   # Defaults to normalized dist name (hyphens → underscores)
+    package: str    # PyPI package name — enables the install/configure page
+    docs_url: str
+    pypi_url: str
+
     # Optional methods
     def get_url_name(self) -> str:
         """Return the URL name for the panel's main entry point."""
         return "index"
 ```
 
+> **Registry key:** Each panel's unique identifier is derived automatically from its PyPI **distribution name** (hyphens replaced with underscores). You do not declare an `id` on the panel class — if you do, it is ignored. This design prevents two community packages from accidentally clobbering each other.
+
 #### Required Attributes
-
-##### `id`
-
-**Type:** `str`  
-**Description:** Unique identifier for the panel. Must match the `app_name` in your panel's `urls.py`.
-
-**Example:**
-```python
-id = "my_panel"
-```
 
 ##### `name`
 
@@ -74,6 +71,30 @@ description = "Monitor system health and performance metrics"
 icon = "chart"
 ```
 
+#### Optional Attributes
+
+##### `app_name`
+
+**Type:** `str`  
+**Default:** Normalized distribution name (hyphens → underscores)  
+**Description:** The Django app label used in `INSTALLED_APPS` and the URL namespace declared in your `urls.py`. Only set this if your app label differs from the normalized dist name.
+
+**Example:**
+```python
+app_name = "my_panel"  # Only needed if it differs from your dist name
+```
+
+##### `package`
+
+**Type:** `str`  
+**Default:** `None`  
+**Description:** Your PyPI package name. When set, enables the install/configure page with a `pip install` snippet.
+
+**Example:**
+```python
+package = "my-panel"
+```
+
 #### Optional Methods
 
 ##### `get_url_name()`
@@ -90,7 +111,7 @@ def get_url_name(self):
 
 Django Control Room resolves the panel's URL using:
 ```python
-reverse(f'{panel.id}:{url_name}')
+reverse(f'{panel.app_name}:{url_name}')
 ```
 
 ## Registry
@@ -128,7 +149,7 @@ Get list of all registered panels.
 ```python
 panels = registry.get_panels()
 for panel in panels:
-    print(f"{panel.id}: {panel.name}")
+    print(f"{panel._registry_id}: {panel.name}")
 ```
 
 ##### `get_panel(panel_id)`
@@ -147,24 +168,25 @@ if panel:
     print(panel.name)
 ```
 
-##### `register_panel(panel)`
+##### `register(panel_class, panel_id)`
 
-Manually register a panel instance.
+Manually register a panel class.
 
 **Parameters:**
-- `panel`: Panel instance to register
+- `panel_class`: The panel class to register
+- `panel_id` (str, required): The registry key for this panel. Normally derived from the dist name during autodiscovery, so must be supplied explicitly here.
 
 **Returns:** `None`
 
 **Example:**
 ```python
 from my_panel.panel import MyPanel
+from dj_control_room.registry import registry
 
-panel = MyPanel()
-registry.register_panel(panel)
+registry.register(MyPanel, panel_id='my_panel')
 ```
 
-> **Note:** Panels are normally registered automatically via entry points. Manual registration is rarely needed.
+> **Note:** Panels are normally registered automatically via entry points. Manual registration is mainly useful in tests.
 
 ## Views
 
@@ -351,9 +373,9 @@ my_panel = "my_panel.panel:MyPanel"
 ```
 
 **Requirements:**
-- `panel_id` must match the panel's `id` attribute
 - Must point to a valid Python class
-- Class must implement the panel interface
+- Class must implement the panel interface (`name`, `description`, `icon`)
+- The registry key is derived from the distribution's `dist.name`, not from this entry point name
 
 ## URL Patterns
 
@@ -366,22 +388,22 @@ Panels should define their URLs with proper namespacing:
 from django.urls import path
 from . import views
 
-app_name = 'my_panel'  # Must match panel.id
+app_name = 'my_panel'  # Must match panel.app_name (defaults to normalized dist name)
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('detail/<str:id>/', views.detail, name='detail'),
+    path('detail/<str:pk>/', views.detail, name='detail'),
 ]
 ```
 
 ### URL Resolution
 
-Django Control Room resolves panel URLs using:
+Django Control Room resolves panel URLs using `panel.app_name` as the namespace:
 
 ```python
 from django.urls import reverse
 
-url = reverse(f'{panel.id}:{url_name}')
+url = reverse(f'{panel.app_name}:{url_name}')
 # Example: reverse('my_panel:index') -> '/admin/my-panel/'
 ```
 
@@ -416,7 +438,7 @@ logger.warning(f"Failed to load panel '{panel_id}': {error}")
 ```
 
 **Common errors:**
-- Missing required attributes (`id`, `name`, `description`, `icon`)
+- Missing required attributes (`name`, `description`, `icon`)
 - Invalid icon value
 - Duplicate panel ID
 - Import errors

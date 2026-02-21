@@ -22,7 +22,7 @@ This template generates a complete, production-ready panel structure with:
 ### Using the Template
 
 ```bash
-pip install cookiecutter
+pip install cookiecutter  # requires cookiecutter>=2.0.0
 cookiecutter https://github.com/yassi/cookiecutter-dj-control-room-plugin
 ```
 
@@ -39,13 +39,9 @@ Here's the minimum you need:
 ```python
 # my_panel/panel.py
 class MyPanel:
-    id = "my_panel"
     name = "My Panel"
     description = "My awesome panel for monitoring X"
     icon = "chart"
-    
-    def get_url_name(self):
-        return "index"
 ```
 
 ```toml
@@ -58,22 +54,15 @@ That's it! Your panel will be automatically discovered by Django Control Room.
 
 ## Panel Interface
 
+### How the Registry ID Works
+
+Django Control Room derives a unique registry key for your panel automatically from your **PyPI distribution name** (the `name` field in `pyproject.toml`), normalizing hyphens to underscores. For example, a package named `my-panel` gets the registry key `my_panel`.
+
+This means you **never need to declare an `id`** on your panel class — and if you do, it is silently ignored. Two different panel authors can never accidentally clobber each other's panels by picking the same string.
+
 ### Required Attributes
 
-Every panel must define these four attributes:
-
-#### `id` (str)
-
-Unique identifier for your panel. Must match your Django app's `app_name` in `urls.py`.
-
-```python
-id = "my_panel"  # Must match app_name in urls.py
-```
-
-**Rules:**
-- Use lowercase with underscores
-- Must be unique across all panels
-- Should match your package name convention
+Every panel must define these three attributes:
 
 #### `name` (str)
 
@@ -107,6 +96,35 @@ icon = "chart"  # One of the available icons
 - `radio` - Signals/events related
 - `cog` - Settings/configuration related
 
+### Optional Attributes
+
+#### `app_name` (str)
+
+The Django app label used in `INSTALLED_APPS` and as the URL namespace in your `urls.py`. Defaults to the normalized distribution name (hyphens replaced with underscores), which is typically the same as your Python package name. Only set this explicitly if your app label differs from your dist name.
+
+```python
+app_name = "my_panel"  # Only needed if it differs from your PyPI dist name
+```
+
+Django Control Room uses this value to check `INSTALLED_APPS` and to resolve your panel's URL via `reverse(f'{panel.app_name}:{url_name}')`. It **must match the `app_name` declared in your `urls.py`**.
+
+#### `package` (str)
+
+Your PyPI package name. When set, enables the install/configure page with pip install instructions.
+
+```python
+package = "my-panel"
+```
+
+#### `docs_url` / `pypi_url` (str)
+
+Optional links shown on the install/configure page.
+
+```python
+docs_url = "https://github.com/yourname/my-panel"
+pypi_url = "https://pypi.org/project/my-panel/"
+```
+
 ### Optional Methods
 
 #### `get_url_name()`
@@ -118,7 +136,7 @@ def get_url_name(self):
     return "index"  # Or "dashboard", "home", etc.
 ```
 
-Django Control Room will resolve your panel's URL using: `reverse(f'{panel.id}:{url_name}')`
+Django Control Room will resolve your panel's URL using: `reverse(f'{panel.app_name}:{url_name}')`
 
 ## Complete Panel Structure
 
@@ -168,13 +186,18 @@ class MyPanel:
     """
     My awesome panel for Django Control Room.
     """
-    
-    # Required attributes
-    id = "my_panel"
+
+    # Required
     name = "My Panel"
     description = "Monitor and manage XYZ"
     icon = "chart"
-    
+
+    # Optional: only needed if your app label differs from your PyPI dist name
+    # app_name = "my_panel"
+
+    # Optional: enables the install/configure page
+    # package = "my-panel"
+
     # Optional: customize URL name (defaults to "index")
     def get_url_name(self):
         return "index"
@@ -199,15 +222,15 @@ class MyPanelConfig(AppConfig):
 from django.urls import path
 from . import views
 
-app_name = 'my_panel'  # Must match panel.id
+app_name = 'my_panel'  # Must match panel.app_name (defaults to normalized dist name)
 
 urlpatterns = [
     path('', views.index, name='index'),  # Main entry point
-    path('detail/<str:id>/', views.detail, name='detail'),
+    path('detail/<str:pk>/', views.detail, name='detail'),
 ]
 ```
 
-> **Important:** `app_name` must match your panel's `id` attribute.
+> **Important:** `app_name` in your `urls.py` must match the `app_name` on your panel class (which defaults to the normalized PyPI distribution name). For a package named `my-panel`, both should be `my_panel`.
 
 ### 5. Create Views
 
@@ -475,7 +498,7 @@ Include comprehensive README with:
    ```python
    from dj_control_room.registry import registry
    registry.autodiscover()
-   print([p.id for p in registry.get_panels()])
+   print([p._registry_id for p in registry.get_panels()])
    ```
 
 ### Write Tests
@@ -488,11 +511,10 @@ from my_panel.panel import MyPanel
 class PanelTestCase(TestCase):
     def test_panel_attributes(self):
         panel = MyPanel()
-        self.assertEqual(panel.id, 'my_panel')
         self.assertEqual(panel.name, 'My Panel')
         self.assertTrue(panel.description)
         self.assertTrue(panel.icon)
-    
+
     def test_url_name(self):
         panel = MyPanel()
         self.assertEqual(panel.get_url_name(), 'index')

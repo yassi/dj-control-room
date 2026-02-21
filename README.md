@@ -180,13 +180,9 @@ You can also create panels manually by implementing a simple interface:
 ```python
 # my_panel/panel.py
 class MyPanel:
-    id = "my_panel"
     name = "My Panel"
     description = "My awesome panel"
     icon = "chart"
-    
-    def get_url_name(self):
-        return "index"
 ```
 
 ```toml
