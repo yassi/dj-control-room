@@ -43,15 +43,11 @@ redis = ["dj-redis-panel>=0.7.5"]
 cache = ["dj-cache-panel>=0.2.6"]
 urls = ["dj-urls-panel>=0.2.1"]
 celery = ["dj-celery-panel>=0.3.4"]
-signals = ["dj-signals-panel>=0.1.1"]
-error = ["dj-error-panel>=0.1.0"]
 all = [
     "dj-redis-panel>=0.7.5",
     "dj-cache-panel>=0.2.6",
     "dj-urls-panel>=0.2.1",
     "dj-celery-panel>=0.3.4",
-    "dj-signals-panel>=0.1.1",
-    "dj-error-panel>=0.1.0",
 ]
 
 # Development extras
