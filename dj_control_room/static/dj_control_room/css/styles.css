@@ -128,6 +128,58 @@
     color: #856404;
 }
 
+.panel-status-configuring {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(230, 126, 34, 0.12);
+    color: #e67e22;
+}
+
+.panel-config-steps {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.panel-config-step {
+    height: 5px;
+    width: 14px;
+    border-radius: 2px;
+    background: rgba(230, 126, 34, 0.25);
+    transition: background 0.2s ease;
+}
+
+.panel-config-step.done {
+    background: #e67e22;
+}
+
+@media (prefers-color-scheme: dark) {
+    .panel-status-configuring {
+        background: rgba(240, 160, 80, 0.15);
+        color: #f0a050;
+    }
+    .panel-config-step {
+        background: rgba(240, 160, 80, 0.2);
+    }
+    .panel-config-step.done {
+        background: #f0a050;
+    }
+}
+
+html[data-theme="dark"] .panel-status-configuring {
+    background: rgba(240, 160, 80, 0.15);
+    color: #f0a050;
+}
+
+html[data-theme="dark"] .panel-config-step {
+    background: rgba(240, 160, 80, 0.2);
+}
+
+html[data-theme="dark"] .panel-config-step.done {
+    background: #f0a050;
+}
+
 .panel-not-installed {
     /* Not-installed panels use same styling as installed */
 }
@@ -420,6 +472,14 @@ html[data-theme="dark"] .panel-link-configure {
 .install-status-not-installed {
     background: #e8f4f8;
     color: #417690;
+}
+
+.install-status-configuring {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(230, 126, 34, 0.12);
+    color: #e67e22;
 }
 
 .install-simple-step-number.step-done {
@@ -740,6 +800,11 @@ html[data-theme="dark"] .panel-link-configure {
     .install-status-not-installed {
         background: rgba(121, 174, 200, 0.15);
         color: #79aec8;
+    }
+
+    .install-status-configuring {
+        background: rgba(240, 160, 80, 0.15);
+        color: #f0a050;
     }
 
     .step-card-done {

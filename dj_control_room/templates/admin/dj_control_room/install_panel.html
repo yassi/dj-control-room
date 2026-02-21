@@ -39,8 +39,17 @@
                 {% endif %}
             </div>
             <h1>{{ panel.name }}</h1>
-            {% if is_installed %}
+            {% if is_configured %}
             <span class="install-status-badge install-status-installed">Installed</span>
+            {% elif is_installed %}
+            <span class="install-status-badge install-status-configuring">
+                SETUP
+                <span class="panel-config-steps">
+                    <span class="panel-config-step {% if is_installed %}done{% endif %}"></span>
+                    <span class="panel-config-step {% if is_in_installed_apps %}done{% endif %}"></span>
+                    <span class="panel-config-step {% if panel_url %}done{% endif %}"></span>
+                </span>
+            </span>
             {% else %}
             <span class="install-status-badge install-status-not-installed">Not installed</span>
             {% endif %}

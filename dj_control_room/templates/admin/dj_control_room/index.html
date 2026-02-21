@@ -54,9 +54,18 @@
                         </svg>
                         {% endif %}
                     </div>
-                    {% if panel.installed %}
+                    {% if panel.installed and panel.configured %}
                     <div class="panel-status panel-status-installed">
                         INSTALLED
+                    </div>
+                    {% elif panel.installed %}
+                    <div class="panel-status panel-status-configuring">
+                        SETUP
+                        <div class="panel-config-steps">
+                            <div class="panel-config-step {% if panel.pip_installed %}done{% endif %}"></div>
+                            <div class="panel-config-step {% if panel.in_installed_apps %}done{% endif %}"></div>
+                            <div class="panel-config-step {% if panel.urls_registered %}done{% endif %}"></div>
+                        </div>
                     </div>
                     {% elif panel.coming_soon %}
                     <div class="panel-status panel-status-coming-soon">
@@ -138,9 +147,20 @@
                         </svg>
                         {% endif %}
                     </div>
+                    {% if panel.configured %}
                     <div class="panel-status panel-status-installed">
                         INSTALLED
                     </div>
+                    {% else %}
+                    <div class="panel-status panel-status-configuring">
+                        SETUP
+                        <div class="panel-config-steps">
+                            <div class="panel-config-step {% if panel.pip_installed %}done{% endif %}"></div>
+                            <div class="panel-config-step {% if panel.in_installed_apps %}done{% endif %}"></div>
+                            <div class="panel-config-step {% if panel.urls_registered %}done{% endif %}"></div>
+                        </div>
+                    </div>
+                    {% endif %}
                 </div>
                 <div class="panel-card-body">
                     <h3>{{ panel.name }}</h3>
