@@ -55,7 +55,7 @@ def install_panel(request, panel_id):
         community_panel = registry.get_panel(panel_id)
         if community_panel and getattr(community_panel, "package", None):
             panel_meta = {
-                "id": community_panel.id,
+                "id": community_panel._registry_id,
                 "name": community_panel.name,
                 "description": community_panel.description,
                 "icon": community_panel.icon,

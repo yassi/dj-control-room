@@ -77,8 +77,29 @@ class PanelRegistry:
         # Validate required attributes
         self._validate_panel(panel, entry_point.name)
 
-        # Register the panel
-        panel_id = getattr(panel, 'id', entry_point.name)
+        # Derive the registry key from the PyPI distribution name, which is
+        # globally unique. This prevents two community packages from clobbering
+        # each other simply by declaring the same `id` value.
+        try:
+            dist_name = entry_point.dist.name
+        except AttributeError:
+            # Older importlib.metadata versions may not expose .dist; fall back
+            # to the entry point name as a best-effort unique key.
+            logger.debug(
+                f"Cannot read dist.name for entry point '{entry_point.name}' "
+                "(importlib.metadata does not expose entry_point.dist). "
+                "Falling back to entry point name as registry key."
+            )
+            dist_name = entry_point.name
+
+        panel_id = _normalize_package_name(dist_name)
+
+        # Stamp the derived ID and a resolved app_name onto the panel instance
+        # so downstream code never needs to touch panel.id (which is no longer
+        # part of the panel contract).
+        panel._registry_id = panel_id
+        if not getattr(panel, "app_name", None):
+            panel.app_name = panel_id
 
         # Guard: if this ID belongs to a featured panel, verify the entry point
         # comes from the expected PyPI distribution. This prevents a malicious
@@ -148,7 +169,7 @@ class PanelRegistry:
         Raises:
             ValueError: If panel is missing required attributes/methods
         """
-        required_attrs = ['id', 'name', 'description', 'icon']
+        required_attrs = ['name', 'description', 'icon']
         required_methods = []  # No required methods - all have defaults
         optional_methods = ['get_url_name', 'get_urls']
         
@@ -195,15 +216,22 @@ class PanelRegistry:
         
         Args:
             panel_class: The panel class to register
-            panel_id: Optional ID for the panel (uses panel.id if not provided)
+            panel_id: Required. The unique registry key for this panel (normally
+                derived from the distribution name during autodiscovery, but must
+                be supplied explicitly here since there is no entry point).
         """
         panel = panel_class()
-        
+
         if panel_id is None:
-            if not hasattr(panel, 'id'):
-                raise ValueError("Panel must have an 'id' attribute")
-            panel_id = panel.id
-        
+            raise ValueError(
+                "panel_id is required for manual registration. "
+                "Pass the normalized distribution name (e.g. 'my_panel')."
+            )
+
+        panel._registry_id = panel_id
+        if not getattr(panel, "app_name", None):
+            panel.app_name = panel_id
+
         self._validate_panel(panel, panel_id)
         self._panels[panel_id] = panel
         logger.info(f"Manually registered panel '{panel_id}' ({panel.name})")

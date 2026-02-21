@@ -62,7 +62,7 @@ def register_panel_admins():
             _register_panel_admin(panel)
         except Exception as e:
             logger.error(
-                f"Failed to register admin for panel '{panel.id}': {e}", exc_info=True
+                f"Failed to register admin for panel '{panel._registry_id}': {e}", exc_info=True
             )
 
 
@@ -73,9 +73,8 @@ def _register_panel_admin(panel):
     Args:
         panel: The panel instance to register
     """
-    # Create a safe model name from the panel ID
-    # e.g., 'redis' -> 'RedisPanel', 'my-panel' -> 'MyPanelPanel'
-    model_name = f"{panel.id.replace('-', '').replace('_', '').title()}PanelProxy"
+    # Create a safe model name from the registry ID
+    model_name = f"{panel._registry_id.replace('-', '').replace('_', '').title()}PanelProxy"
 
     # Check if already registered
     try:
@@ -108,7 +107,7 @@ def _register_panel_admin(panel):
 
     # Get the URL name from the panel (default to "index" if method missing)
     url_name = getattr(panel, "get_url_name", lambda: "index")()
-    panel_id = panel.id
+    panel_id = panel.app_name
 
     # Build redirect URL at request time so reverse() uses the loaded URLconf
     def make_changelist_view(panel_id, url_name):
@@ -134,4 +133,4 @@ def _register_panel_admin(panel):
     # Register it with the admin site
     admin.site.register(model_class, admin_class)
 
-    logger.info(f"Registered admin entry for panel '{panel.id}' ({panel.name})")
+    logger.info(f"Registered admin entry for panel '{panel._registry_id}' ({panel.name})")

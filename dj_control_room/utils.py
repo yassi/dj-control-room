@@ -77,7 +77,7 @@ def get_panel_config_status(panel_id, panel_app_name):
     if pip_installed:
         try:
             url_name = getattr(installed_panel, "get_url_name", lambda: "index")()
-            reverse(f"{panel_id}:{url_name}")
+            reverse(f"{panel_app_name}:{url_name}")
             urls_registered = True
         except Exception:
             pass
@@ -101,31 +101,32 @@ def get_panel_data(panel):
     Returns:
         dict: Panel data dictionary
     """
-    featured = is_featured_panel(panel.id)
+    panel_id = panel._registry_id
+    featured = is_featured_panel(panel_id)
 
-    # Prefer the panel's explicit app_name; fall back to panel.id (the entry
-    # point name, which matches the app label for first-party panels).
-    panel_app_name = getattr(panel, "app_name", None) or panel.id
-    config = get_panel_config_status(panel.id, panel_app_name)
+    # app_name is stamped onto the panel by the registry at discovery time;
+    # it defaults to the normalized dist name if not explicitly set.
+    panel_app_name = panel.app_name
+    config = get_panel_config_status(panel_id, panel_app_name)
 
     has_install_page = featured or bool(getattr(panel, "package", None))
 
     if config["is_configured"]:
         url_name = getattr(panel, "get_url_name", lambda: "index")()
-        url = reverse(f"{panel.id}:{url_name}")
+        url = reverse(f"{panel_app_name}:{url_name}")
     elif has_install_page:
-        url = reverse("dj_control_room:install_panel", args=[panel.id])
+        url = reverse("dj_control_room:install_panel", args=[panel_id])
     else:
         url = "#"
 
     if not config["is_configured"]:
         logger.warning(
-            f"Panel '{panel.id}' is registered but its URLs could not be resolved. "
+            f"Panel '{panel_id}' is registered but its URLs could not be resolved. "
             "Make sure the panel is in INSTALLED_APPS and its URLs are included."
         )
 
     return {
-        "id": panel.id,
+        "id": panel_id,
         "name": panel.name,
         "description": panel.description,
         "icon": panel.icon,
@@ -193,7 +194,7 @@ def get_community_panels():
     community_panels = []
 
     for panel in registry.get_panels():
-        if panel.id not in featured_ids:
+        if panel._registry_id not in featured_ids:
             community_panels.append(get_panel_data(panel))
 
     return community_panels

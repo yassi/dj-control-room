@@ -250,8 +250,8 @@
                     <div class="install-simple-step-content">
                         <h3>Add URLs to urls.py</h3>
                         <div class="install-simple-code">
-                            <code>urlpatterns = [<br>&nbsp;&nbsp;&nbsp;&nbsp;# ...<br>&nbsp;&nbsp;&nbsp;&nbsp;path("{{ panel_url_prefix }}/", include("{{ panel.id }}.urls")),<br>]</code>
-                            <button class="install-simple-copy" onclick="copyToClipboard(this, 'urlpatterns = [\n    # ...\n    path(&quot;{{ panel_url_prefix }}/&quot;, include(&quot;{{ panel.id }}.urls&quot;)),\n]')">
+                            <code>urlpatterns = [<br>&nbsp;&nbsp;&nbsp;&nbsp;# ...<br>&nbsp;&nbsp;&nbsp;&nbsp;path("{{ panel_url_prefix }}/", include("{{ panel_app_name }}.urls")),<br>]</code>
+                            <button class="install-simple-copy" onclick="copyToClipboard(this, 'urlpatterns = [\n    # ...\n    path(&quot;{{ panel_url_prefix }}/&quot;, include(&quot;{{ panel_app_name }}.urls&quot;)),\n]')">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
                                     <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>

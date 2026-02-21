@@ -53,7 +53,7 @@ FEATURED_PANELS = [
         "pypi_url": "https://pypi.org/project/dj-signals-panel/",
     },
     {
-        "id": "dj_error _panel",
+        "id": "dj_error_panel",
         "name": "Error Panel",
         "description": "Monitor errors, stack traces, and exceptions.",
         "icon": "link",
