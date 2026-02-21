@@ -13,6 +13,7 @@ from django.urls import reverse
 
 from .registry import registry
 from .utils import should_register_panel_admin
+from .featured_panels import get_featured_panel_ids
 
 logger = logging.getLogger(__name__)
 
@@ -31,9 +32,11 @@ def unregister_panel_placeholders():
     to_unregister = []
     for model, _ in list(admin.site._registry.items()):
         try:
-            if not getattr(model._meta, 'managed', True) and model._meta.app_label:
+            if not getattr(model._meta, "managed", True) and model._meta.app_label:
                 panel_id = model._meta.app_label
-                if registry.is_registered(panel_id) and not should_register_panel_admin(panel_id):
+                if registry.is_registered(panel_id) and not should_register_panel_admin(
+                    panel_id
+                ):
                     to_unregister.append(model)
         except Exception:
             continue
@@ -62,7 +65,8 @@ def register_panel_admins():
             _register_panel_admin(panel)
         except Exception as e:
             logger.error(
-                f"Failed to register admin for panel '{panel._registry_id}': {e}", exc_info=True
+                f"Failed to register admin for panel '{panel._registry_id}': {e}",
+                exc_info=True,
             )
 
 
@@ -74,7 +78,9 @@ def _register_panel_admin(panel):
         panel: The panel instance to register
     """
     # Create a safe model name from the registry ID
-    model_name = f"{panel._registry_id.replace('-', '').replace('_', '').title()}PanelProxy"
+    model_name = (
+        f"{panel._registry_id.replace('-', '').replace('_', '').title()}PanelProxy"
+    )
 
     # Check if already registered
     try:
@@ -88,6 +94,13 @@ def _register_panel_admin(panel):
     except Exception:
         pass
 
+    # Community panels are prefixed with "[+] " so they always sort
+    # after featured panels in the sidebar. "[" (ASCII 91) is greater than all
+    # uppercase letters (max "Z" = 90), which is what Django uses to sort
+    # models within an app in get_app_list.
+    is_featured = panel._registry_id in get_featured_panel_ids()
+    display_name = panel.name if is_featured else f"[+] {panel.name}"
+
     # Create the proxy model class dynamically
     model_attrs = {
         "__module__": "dj_control_room.models",
@@ -96,8 +109,8 @@ def _register_panel_admin(panel):
             (),
             {
                 "managed": False,  # Don't create database table
-                "verbose_name": panel.name,
-                "verbose_name_plural": panel.name,
+                "verbose_name": display_name,
+                "verbose_name_plural": display_name,
                 "app_label": "dj_control_room",  # Key: groups under DJ Control Room
             },
         ),
@@ -133,4 +146,6 @@ def _register_panel_admin(panel):
     # Register it with the admin site
     admin.site.register(model_class, admin_class)
 
-    logger.info(f"Registered admin entry for panel '{panel._registry_id}' ({panel.name})")
+    logger.info(
+        f"Registered admin entry for panel '{panel._registry_id}' ({panel.name})"
+    )
