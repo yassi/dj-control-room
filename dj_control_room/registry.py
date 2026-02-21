@@ -234,8 +234,18 @@ class PanelRegistry:
         panel._registry_id = panel_id
         if not getattr(panel, "app_name", None):
             panel.app_name = panel_id
+        if not getattr(panel, "package", None):
+            panel.package = panel_id
 
         self._validate_panel(panel, panel_id)
+
+        if panel_id in self._panels:
+            logger.warning(
+                f"Panel ID '{panel_id}' is already registered. "
+                f"Skipping duplicate manual registration of {panel_class.__name__}."
+            )
+            return
+
         self._panels[panel_id] = panel
         logger.info(f"Manually registered panel '{panel_id}' ({panel.name})")
     
