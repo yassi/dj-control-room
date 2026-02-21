@@ -21,6 +21,8 @@ class ExampleProjectConfig(AppConfig):
         from dj_control_room.registry import registry
         from .example_panels import ExamplePanel, DemoPanel
         
-        # Manually register example panels
-        registry.register(ExamplePanel)
-        registry.register(DemoPanel)
+        # Manually register example panels.
+        # panel_id is required for manual registration (normally derived from
+        # dist.name during autodiscovery via entry points).
+        registry.register(ExamplePanel, panel_id='example')
+        registry.register(DemoPanel, panel_id='demo')
