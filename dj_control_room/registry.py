@@ -118,7 +118,7 @@ class PanelRegistry:
             return
 
         self._panels[panel_id] = panel
-        logger.info(f"Registered panel '{panel_id}' ({panel.name})")
+        logger.debug(f"Registered panel '{panel_id}' ({panel.name})")
 
     def _verify_featured_identity(self, panel_id, entry_point):
         """
@@ -247,7 +247,7 @@ class PanelRegistry:
             return
 
         self._panels[panel_id] = panel
-        logger.info(f"Manually registered panel '{panel_id}' ({panel.name})")
+        logger.debug(f"Manually registered panel '{panel_id}' ({panel.name})")
     
     def get_panels(self):
         """
