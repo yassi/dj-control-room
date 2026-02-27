@@ -146,6 +146,6 @@ def _register_panel_admin(panel):
     # Register it with the admin site
     admin.site.register(model_class, admin_class)
 
-    logger.info(
+    logger.debug(
         f"Registered admin entry for panel '{panel._registry_id}' ({panel.name})"
     )
