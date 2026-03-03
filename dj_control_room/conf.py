@@ -3,13 +3,17 @@ from django.templatetags.static import static
 from django.utils.html import format_html, mark_safe
 
 DEFAULTS = {
+    "REGISTER_PANELS_IN_ADMIN": False,
+    "PANEL_ADMIN_REGISTRATION": {},
     "LOAD_DEFAULT_CSS": True,
     "EXTRA_CSS": [],
 }
 
 
-def get_config(key):
+def get_config(key=None):
     user_config = getattr(settings, "DJ_CONTROL_ROOM_SETTINGS", {})
+    if key is None:
+        return user_config
     return user_config.get(key, DEFAULTS[key])
 
 

@@ -2,11 +2,11 @@
 Utility functions for DJ Control Room.
 """
 
-from django.conf import settings
 from django.urls import reverse
 from django.apps import apps as django_apps
 import logging
 
+from .conf import get_config
 from .registry import registry
 from .featured_panels import FEATURED_PANELS, get_featured_panel_ids, is_featured_panel
 
@@ -37,21 +37,22 @@ def should_register_panel_admin(panel_id=None):
             'PANEL_ADMIN_REGISTRATION': {
                 'redis': True,   # Redis shows in both places
                 'cache': False,  # Cache only in Control Room
-                '*': False,      # Default for others
             }
         }
     """
-    config = getattr(settings, "DJ_CONTROL_ROOM_SETTINGS", {})
+    panel_specific_configs = get_config("PANEL_ADMIN_REGISTRATION")
+    global_panel_config = get_config("REGISTER_PANELS_IN_ADMIN")
 
     # Per-panel settings take precedence when provided (explicit allow/deny per panel)
-    if panel_id and "PANEL_ADMIN_REGISTRATION" in config:
-        panel_settings = config["PANEL_ADMIN_REGISTRATION"]
-        if panel_id in panel_settings or "*" in panel_settings:
-            return panel_settings.get(panel_id, panel_settings.get("*", False))
+    if panel_id and panel_specific_configs:
+        panel_admin_visibility = panel_specific_configs.get(
+            panel_id, panel_specific_configs.get("*", False)
+        )
+        return panel_admin_visibility
 
     # Global setting for all panels
-    if "REGISTER_PANELS_IN_ADMIN" in config:
-        return config["REGISTER_PANELS_IN_ADMIN"]
+    if global_panel_config:
+        return global_panel_config
 
     # Default: don't register in admin (only show in Control Room)
     return False
