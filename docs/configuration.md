@@ -15,6 +15,41 @@ All Django Control Room settings are configured in your Django `settings.py` fil
 DJ_CONTROL_ROOM_SETTINGS = {
     'REGISTER_PANELS_IN_ADMIN': False,
     'PANEL_ADMIN_REGISTRATION': {},
+    'LOAD_DEFAULT_CSS': True,
+    'EXTRA_CSS': [],
+}
+```
+
+## CSS Customization
+
+### `LOAD_DEFAULT_CSS`
+
+**Type:** `bool`  
+**Default:** `True`  
+**Description:** Whether to load the built-in Control Room stylesheet. Set to `False` to use your own styles from scratch.
+
+```python
+DJ_CONTROL_ROOM_SETTINGS = {
+    'LOAD_DEFAULT_CSS': False,  # Skip built-in styles entirely
+}
+```
+
+### `EXTRA_CSS`
+
+**Type:** `list[str]`  
+**Default:** `[]`  
+**Description:** Additional stylesheets to load after the default CSS. Accepts static file paths or full URLs.
+
+Static file paths follow the same convention as Django's `{% static %}` tag: the path is **relative to your app's `static/` subdirectory**, not the filesystem. For example, a file at `myapp/static/myapp/css/overrides.css` is referenced as `myapp/css/overrides.css`.
+
+```python
+DJ_CONTROL_ROOM_SETTINGS = {
+    'EXTRA_CSS': [
+        # File lives at: myapp/static/myapp/css/overrides.css
+        'myapp/css/overrides.css',
+        # Full URLs are also supported (e.g. CDN-hosted theme)
+        'https://cdn.example.com/theme.css',
+    ],
 }
 ```
 

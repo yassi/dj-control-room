@@ -6,6 +6,7 @@ from django.http import HttpResponse
 from django.contrib import admin
 from django.urls import reverse
 
+from .conf import get_css_context
 from .featured_panels import get_featured_panel_metadata
 from .registry import registry
 from .utils import get_panel_config_status, get_featured_panels, get_community_panels
@@ -20,6 +21,7 @@ def index(request):
     followed by community panels.
     """
     context = admin.site.each_context(request)
+    context.update(get_css_context())
 
     featured_panels = get_featured_panels()
     community_panels = get_community_panels()
@@ -46,6 +48,7 @@ def install_panel(request, panel_id):
     Uses a panel-specific template if available, otherwise falls back to generic.
     """
     context = admin.site.each_context(request)
+    context.update(get_css_context())
 
     panel_meta = get_featured_panel_metadata(panel_id)
 
