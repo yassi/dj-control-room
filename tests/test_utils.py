@@ -30,9 +30,17 @@ from dj_control_room.utils import (
 # Helper: build a minimal panel instance the way the registry stamps it
 # ---------------------------------------------------------------------------
 
-def _make_panel(registry_id, app_name=None, package=None, name="Test Panel",
-                description="Test desc", icon="chart",
-                docs_url=None, pypi_url=None):
+
+def _make_panel(
+    registry_id,
+    app_name=None,
+    package=None,
+    name="Test Panel",
+    description="Test desc",
+    icon="chart",
+    docs_url=None,
+    pypi_url=None,
+):
     """Return a plain object that mimics a registry-stamped panel instance."""
     obj = MagicMock()
     obj._registry_id = registry_id
@@ -51,8 +59,8 @@ def _make_panel(registry_id, app_name=None, package=None, name="Test Panel",
 # get_panel_config_status
 # ---------------------------------------------------------------------------
 
-class TestGetPanelConfigStatus(TestCase):
 
+class TestGetPanelConfigStatus(TestCase):
     def test_not_installed_when_panel_not_in_registry(self):
         status = get_panel_config_status("nonexistent_panel", "nonexistent_panel")
         self.assertFalse(status["pip_installed"])
@@ -82,17 +90,19 @@ class TestGetPanelConfigStatus(TestCase):
 # get_panel_data
 # ---------------------------------------------------------------------------
 
-class TestGetPanelData(TestCase):
 
+class TestGetPanelData(TestCase):
     def test_id_field_comes_from_registry_id(self):
         """get_panel_data must use _registry_id, not any panel.id attribute."""
         panel = _make_panel("dist_derived_id")
         # Simulate a panel that still declares the old id attribute
         panel.id = "old_id_that_should_be_ignored"
 
-        with patch("dj_control_room.utils.is_featured_panel", return_value=False), \
-             patch("dj_control_room.utils.get_panel_config_status") as mock_cfg, \
-             patch("dj_control_room.utils.reverse", return_value="/install/x/"):
+        with (
+            patch("dj_control_room.utils.is_featured_panel", return_value=False),
+            patch("dj_control_room.utils.get_panel_config_status") as mock_cfg,
+            patch("dj_control_room.utils.reverse", return_value="/install/x/"),
+        ):
             mock_cfg.return_value = {
                 "is_configured": False,
                 "pip_installed": True,
@@ -108,9 +118,11 @@ class TestGetPanelData(TestCase):
         """package is always included in the panel data dict."""
         panel = _make_panel("my_panel", package="my-panel")
 
-        with patch("dj_control_room.utils.is_featured_panel", return_value=False), \
-             patch("dj_control_room.utils.get_panel_config_status") as mock_cfg, \
-             patch("dj_control_room.utils.reverse", return_value="/install/x/"):
+        with (
+            patch("dj_control_room.utils.is_featured_panel", return_value=False),
+            patch("dj_control_room.utils.get_panel_config_status") as mock_cfg,
+            patch("dj_control_room.utils.reverse", return_value="/install/x/"),
+        ):
             mock_cfg.return_value = {
                 "is_configured": False,
                 "pip_installed": True,
@@ -126,10 +138,14 @@ class TestGetPanelData(TestCase):
         """When configured, the URL is resolved using panel.app_name."""
         panel = _make_panel("my_panel", app_name="my_panel")
 
-        with patch("dj_control_room.utils.is_featured_panel", return_value=False), \
-             patch("dj_control_room.utils.get_panel_config_status") as mock_cfg, \
-             patch("dj_control_room.utils.reverse",
-                   return_value="/admin/dj-control-room/my-panel/") as mock_reverse:
+        with (
+            patch("dj_control_room.utils.is_featured_panel", return_value=False),
+            patch("dj_control_room.utils.get_panel_config_status") as mock_cfg,
+            patch(
+                "dj_control_room.utils.reverse",
+                return_value="/admin/dj-control-room/my-panel/",
+            ) as mock_reverse,
+        ):
             mock_cfg.return_value = {
                 "is_configured": True,
                 "pip_installed": True,
@@ -148,10 +164,14 @@ class TestGetPanelData(TestCase):
         """Unconfigured panels link to their install/configure page."""
         panel = _make_panel("community_panel")
 
-        with patch("dj_control_room.utils.is_featured_panel", return_value=False), \
-             patch("dj_control_room.utils.get_panel_config_status") as mock_cfg, \
-             patch("dj_control_room.utils.reverse",
-                   return_value="/admin/dj-control-room/install/community_panel/"):
+        with (
+            patch("dj_control_room.utils.is_featured_panel", return_value=False),
+            patch("dj_control_room.utils.get_panel_config_status") as mock_cfg,
+            patch(
+                "dj_control_room.utils.reverse",
+                return_value="/admin/dj-control-room/install/community_panel/",
+            ),
+        ):
             mock_cfg.return_value = {
                 "is_configured": False,
                 "pip_installed": True,
@@ -168,19 +188,25 @@ class TestGetPanelData(TestCase):
 # get_community_panels
 # ---------------------------------------------------------------------------
 
-class TestGetCommunityPanels(TestCase):
 
+class TestGetCommunityPanels(TestCase):
     def test_featured_panels_excluded(self):
         """get_community_panels must not include featured panels."""
-        with patch("dj_control_room.utils.registry") as mock_reg, \
-             patch("dj_control_room.utils.get_featured_panel_ids",
-                   return_value=["dj_cache_panel", "dj_redis_panel"]):
+        with (
+            patch("dj_control_room.utils.registry") as mock_reg,
+            patch(
+                "dj_control_room.utils.get_featured_panel_ids",
+                return_value=["dj_cache_panel", "dj_redis_panel"],
+            ),
+        ):
             featured = _make_panel("dj_cache_panel", name="Cache Panel")
             community = _make_panel("my_community_panel", name="Community Panel")
             mock_reg.get_panels.return_value = [featured, community]
 
-            with patch("dj_control_room.utils.get_panel_data",
-                       side_effect=lambda p: {"id": p._registry_id}):
+            with patch(
+                "dj_control_room.utils.get_panel_data",
+                side_effect=lambda p: {"id": p._registry_id},
+            ):
                 result = get_community_panels()
 
         ids = [r["id"] for r in result]
@@ -188,16 +214,22 @@ class TestGetCommunityPanels(TestCase):
         self.assertIn("my_community_panel", ids)
 
     def test_only_community_panels_returned(self):
-        with patch("dj_control_room.utils.registry") as mock_reg, \
-             patch("dj_control_room.utils.get_featured_panel_ids",
-                   return_value=["dj_cache_panel"]):
+        with (
+            patch("dj_control_room.utils.registry") as mock_reg,
+            patch(
+                "dj_control_room.utils.get_featured_panel_ids",
+                return_value=["dj_cache_panel"],
+            ),
+        ):
             mock_reg.get_panels.return_value = [
                 _make_panel("dj_cache_panel"),
                 _make_panel("panel_a"),
                 _make_panel("panel_b"),
             ]
-            with patch("dj_control_room.utils.get_panel_data",
-                       side_effect=lambda p: {"id": p._registry_id}):
+            with patch(
+                "dj_control_room.utils.get_panel_data",
+                side_effect=lambda p: {"id": p._registry_id},
+            ):
                 result = get_community_panels()
 
         self.assertEqual(len(result), 2)
@@ -207,8 +239,8 @@ class TestGetCommunityPanels(TestCase):
 # get_featured_panels
 # ---------------------------------------------------------------------------
 
-class TestGetFeaturedPanels(TestCase):
 
+class TestGetFeaturedPanels(TestCase):
     def test_uninstalled_featured_panel_has_not_installed_status(self):
         """Featured panels that aren't pip-installed show as not installed."""
         with patch("dj_control_room.utils.registry") as mock_reg:
@@ -228,40 +260,44 @@ class TestGetFeaturedPanels(TestCase):
 # should_register_panel_admin
 # ---------------------------------------------------------------------------
 
-class TestShouldRegisterPanelAdmin(TestCase):
 
-    @override_settings(DJ_CONTROL_ROOM={})
+class TestShouldRegisterPanelAdmin(TestCase):
+    @override_settings(DJ_CONTROL_ROOM_SETTINGS={})
     def test_default_is_false(self):
         self.assertFalse(should_register_panel_admin())
 
-    @override_settings(DJ_CONTROL_ROOM={"REGISTER_PANELS_IN_ADMIN": True})
+    @override_settings(DJ_CONTROL_ROOM_SETTINGS={"REGISTER_PANELS_IN_ADMIN": True})
     def test_global_true(self):
         self.assertTrue(should_register_panel_admin())
 
-    @override_settings(DJ_CONTROL_ROOM={"REGISTER_PANELS_IN_ADMIN": False})
+    @override_settings(DJ_CONTROL_ROOM_SETTINGS={"REGISTER_PANELS_IN_ADMIN": False})
     def test_global_false(self):
         self.assertFalse(should_register_panel_admin())
 
-    @override_settings(DJ_CONTROL_ROOM={
-        "PANEL_ADMIN_REGISTRATION": {"my_panel": True, "*": False}
-    })
+    @override_settings(
+        DJ_CONTROL_ROOM_SETTINGS={
+            "PANEL_ADMIN_REGISTRATION": {"my_panel": True, "*": False}
+        }
+    )
     def test_per_panel_override_true(self):
         self.assertTrue(should_register_panel_admin("my_panel"))
 
-    @override_settings(DJ_CONTROL_ROOM={
-        "PANEL_ADMIN_REGISTRATION": {"my_panel": False, "*": True}
-    })
+    @override_settings(
+        DJ_CONTROL_ROOM_SETTINGS={
+            "PANEL_ADMIN_REGISTRATION": {"my_panel": False, "*": True}
+        }
+    )
     def test_per_panel_override_false(self):
         self.assertFalse(should_register_panel_admin("my_panel"))
 
-    @override_settings(DJ_CONTROL_ROOM={
-        "PANEL_ADMIN_REGISTRATION": {"*": True}
-    })
+    @override_settings(
+        DJ_CONTROL_ROOM_SETTINGS={"PANEL_ADMIN_REGISTRATION": {"*": True}}
+    )
     def test_wildcard_applies_to_unknown_panel(self):
         self.assertTrue(should_register_panel_admin("some_other_panel"))
 
-    @override_settings(DJ_CONTROL_ROOM={
-        "PANEL_ADMIN_REGISTRATION": {"*": False}
-    })
+    @override_settings(
+        DJ_CONTROL_ROOM_SETTINGS={"PANEL_ADMIN_REGISTRATION": {"*": False}}
+    )
     def test_wildcard_false_applies_to_unknown_panel(self):
         self.assertFalse(should_register_panel_admin("some_other_panel"))
