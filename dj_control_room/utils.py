@@ -28,12 +28,12 @@ def should_register_panel_admin(panel_id=None):
 
     Examples:
         # Simple boolean for all panels
-        DJ_CONTROL_ROOM = {
+        DJ_CONTROL_ROOM_SETTINGS = {
             'REGISTER_PANELS_IN_ADMIN': True  # Panels show in both places
         }
 
         # Granular per-panel control
-        DJ_CONTROL_ROOM = {
+        DJ_CONTROL_ROOM_SETTINGS = {
             'PANEL_ADMIN_REGISTRATION': {
                 'redis': True,   # Redis shows in both places
                 'cache': False,  # Cache only in Control Room
@@ -41,7 +41,7 @@ def should_register_panel_admin(panel_id=None):
             }
         }
     """
-    config = getattr(settings, "DJ_CONTROL_ROOM", {})
+    config = getattr(settings, "DJ_CONTROL_ROOM_SETTINGS", {})
 
     # Per-panel settings take precedence when provided (explicit allow/deny per panel)
     if panel_id and "PANEL_ADMIN_REGISTRATION" in config:
