@@ -131,12 +131,18 @@ All installed panels appear in the Django admin sidebar under "Django Control Ro
 DJ_CONTROL_ROOM_SETTINGS = {
     # Global: Show panels in both Control Room and their own sections
     'REGISTER_PANELS_IN_ADMIN': False,  # Default: False
-    
+
     # Per-panel: Override for specific panels
     'PANEL_ADMIN_REGISTRATION': {
         'dj_redis_panel': True,   # Redis in both places
         'dj_cache_panel': False,  # Cache only in Control Room
-    }
+    },
+
+    # CSS: load built-in styles and/or inject your own
+    'LOAD_DEFAULT_CSS': True,
+    # Static paths are relative to app's static/ dir (e.g. 'myapp/css/overrides.css'
+    # for a file at myapp/static/myapp/css/overrides.css). Full URLs also accepted.
+    'EXTRA_CSS': [],
 }
 ```
 
