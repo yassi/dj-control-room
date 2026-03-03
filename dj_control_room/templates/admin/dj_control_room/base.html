@@ -5,7 +5,8 @@
 
 {% block extrahead %}
 {{ block.super }}
-<link rel="stylesheet" href="{% static 'dj_control_room/css/styles.css' %}">
+{% if dj_cr_load_default_css %}<link rel="stylesheet" href="{% static 'dj_control_room/css/styles.css' %}">{% endif %}
+{{ dj_cr_extra_css }}
 {% endblock %}
 
 {% block branding %}
