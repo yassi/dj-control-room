@@ -3,6 +3,7 @@
 [![PyPI version](https://badge.fury.io/py/dj-control-room.svg)](https://badge.fury.io/py/dj-control-room)
 [![Python versions](https://img.shields.io/pypi/pyversions/dj-control-room.svg)](https://pypi.org/project/dj-control-room/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+[![Awesome Django](https://awesome.re/badge.svg)](https://github.com/wsvincent/awesome-django)
 
 <p align="center">
   <picture>
