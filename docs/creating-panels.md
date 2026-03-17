@@ -10,6 +10,9 @@ The fastest way to create a new panel is using our official cookiecutter templat
 
 **[cookiecutter-dj-control-room-plugin](https://github.com/yassi/cookiecutter-dj-control-room-plugin)**
 
+You can find a guide for creating your very first admin panel using this tempalte at:
+- https://djangocontrolroom.com/guides/create-django-control-room-panel
+
 This template generates a complete, production-ready panel structure with:
 
 - Django admin integration

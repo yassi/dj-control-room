@@ -200,7 +200,9 @@ class MyPanel:
 my_panel = "my_panel.panel:MyPanel"
 ```
 
-See our [Creating Panels Guide](docs/creating-panels.md) for full documentation or use the [cookiecutter template](https://github.com/yassi/cookiecutter-dj-control-room-plugin) to get started quickly.
+See our [Creating Panels Doc](docs/creating-panels.md) for full documentation or use 
+our [Build your own panel guide](https://djangocontrolroom.com/guides/create-django-control-room-panel) which uses our
+[cookiecutter template](https://github.com/yassi/cookiecutter-dj-control-room-plugin) to get started quickly.
 
 ## Security
 
