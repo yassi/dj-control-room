@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "dj-control-room"
-version = "1.1.2"
+version = "1.2.0"
 description = "The control room for your Django app"
 readme = "README.md"
 license = "MIT"
@@ -39,15 +39,17 @@ dependencies = [
 
 [project.optional-dependencies]
 # Panel extras - install specific panels
-redis = ["dj-redis-panel>=0.8.0"]
-cache = ["dj-cache-panel>=0.3.0"]
-urls = ["dj-urls-panel>=0.3.0"]
+redis = ["dj-redis-panel>=0.8.2"]
+cache = ["dj-cache-panel>=0.4.0"]
 celery = ["dj-celery-panel>=0.4.0"]
+urls = ["dj-urls-panel>=0.3.0"]
+signals = ["dj-signals-panel>=0.2.0"]
 all = [
-    "dj-redis-panel>=0.8.0",
-    "dj-cache-panel>=0.3.0",
-    "dj-urls-panel>=0.3.0",
+    "dj-redis-panel>=0.8.2",
+    "dj-cache-panel>=0.4.0",
     "dj-celery-panel>=0.4.0",
+    "dj-urls-panel>=0.3.0",
+    "dj-signals-panel>=0.2.0",
 ]
 
 # Development extras
