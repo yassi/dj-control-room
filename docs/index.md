@@ -108,7 +108,7 @@ Pre-built panels for common Django tasks:
 - **Cache Panel** - Inspect Django cache backends
 - **URLs Panel** - Browse and test URL patterns
 - **Celery Panel** - Monitor Celery tasks
-- **Signals Panel** (coming soon) - Debug Django signals
+- **Signals Panel** - Inspect Django signals and receivers
 - **Error Panel** (coming soon) - Monitor errors and exceptions
 
 ## Architecture
