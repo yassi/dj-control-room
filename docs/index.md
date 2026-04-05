@@ -72,7 +72,9 @@ Official panel documentation:
 
 - [Redis Panel](https://github.com/yassi/dj-redis-panel) - Redis monitoring and key inspection
 - [Cache Panel](https://github.com/yassi/dj-cache-panel) - Django cache backend inspection
+- [Celery Panel](https://github.com/yassi/dj-celery-panel) - Django celery monitoring
 - [URLs Panel](https://github.com/yassi/dj-urls-panel) - URL pattern browsing and testing
+- [Signals Panel](https://github.com/yassi/dj-signals-panel) - Django Signals/Receivers inspection
 
 ## Features
 
@@ -108,7 +110,7 @@ Pre-built panels for common Django tasks:
 - **Cache Panel** - Inspect Django cache backends
 - **URLs Panel** - Browse and test URL patterns
 - **Celery Panel** - Monitor Celery tasks
-- **Signals Panel** (coming soon) - Debug Django signals
+- **Signals Panel** - Inspect Django signals and receivers
 - **Error Panel** (coming soon) - Monitor errors and exceptions
 
 ## Architecture

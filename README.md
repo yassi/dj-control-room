@@ -65,7 +65,7 @@ pip install dj-control-room[all]
 - `cache` - Django cache backend inspector
 - `urls` - URL pattern browser and tester
 - `celery` - Celery task monitor
-- `signals` - Django signals inspector (coming soon)
+- `signals` - Django signals/recievers inspection
 - `all` - All official panels
 
 ## Quick Start
@@ -163,12 +163,13 @@ DJ_CONTROL_ROOM_SETTINGS = {
 | **Cache Panel** | Inspect cache entries, view hit/miss ratios | `pip install dj-cache-panel` |
 | **URLs Panel** | Browse URL patterns, test resolvers | `pip install dj-urls-panel` |
 | **Celery Panel** | Monitor workers, track task queues | `pip install dj-celery-panel` |
+| **Signals Panel** | Inspect Django signals and recievers | `pip install dj-signals-panel` |
+
 
 ### Coming Soon
 
 | Panel | Description | Status |
 |-------|-------------|--------|
-| **Signals Panel** | Inspect Django signals, debug connections | In Development |
 | **Error Panel** | Monitor errors, exceptions, and tracebacks | In Development |
 
 ## Creating Custom Panels
