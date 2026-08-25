@@ -90,7 +90,7 @@ It is disabled by default. All three settings are required to turn it on:
 DJ_CONTROL_ROOM_SETTINGS = {
     "MCP_ENABLED": True,
     "MCP_TOKEN": "your-secret-token",  # Bearer token checked on every request
-    "MCP_USERNAME": "admin",  # Django username whose permissions apply
+    "MCP_USERNAME": "admin",  # user model identifier (USERNAME_FIELD) whose permissions apply
 }
 ```
 
@@ -110,7 +110,7 @@ DJ_CONTROL_ROOM_SETTINGS = {
 
 **Type:** `str`  
 **Default:** `None`  
-**Description:** Username of the Django staff user whose permissions apply to every tool call made over MCP. There is no fallback to "the first superuser" by design; the user must exist, be active, and be staff.
+**Description:** Identifier of the Django staff user whose permissions apply to every tool call made over MCP. It is matched against the user model's `USERNAME_FIELD`, so with the default `User` model it is the `username`, while projects using an email-as-identifier custom user model (`username = None`, `USERNAME_FIELD = "email"`) should set it to the user's email address. There is no fallback to "the first superuser" by design; the user must exist, be active, and be staff.
 
 Each tool call is checked against the *originating panel's own* scope and `SCOPE_PERMISSIONS`, exactly as if it were called directly from that panel. See [Scopes](scopes.md#panel-tool-scopes-mcp) for details.
 

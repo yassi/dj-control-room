@@ -6,9 +6,12 @@ supported methods: initialize, tools/list, tools/call.
 """
 
 import json
+from unittest import mock
 
 from django.test import TestCase, override_settings
 from django.contrib.auth import get_user_model
+
+from dj_control_room.mcp_views import _MisconfiguredError, _resolve_user
 
 User = get_user_model()
 
@@ -110,6 +113,58 @@ class TestAuthentication(MCPTestCase):
         self.assertEqual(response.status_code, 500)
         data = response.json()
         self.assertEqual(data["error"]["code"], -32603)
+
+
+@override_settings(DJ_CONTROL_ROOM_SETTINGS=MCP_SETTINGS)
+class TestResolveUserWithCustomUserModel(TestCase):
+    """
+    _resolve_user() must resolve via the model's USERNAME_FIELD, not a
+    hardcoded 'username' kwarg, so email-as-identifier user models work.
+    """
+
+    def _patch_user_model(self):
+        """Patch get_user_model() to return a model with USERNAME_FIELD='email'."""
+        user = mock.Mock()
+        queryset = mock.Mock()
+        queryset.first.return_value = user
+        manager = mock.Mock()
+        manager.filter.return_value = queryset
+        model = type("CustomUser", (), {"USERNAME_FIELD": "email", "objects": manager})
+        patcher = mock.patch("django.contrib.auth.get_user_model", return_value=model)
+        return patcher, manager, user
+
+    def test_filters_by_username_field(self):
+        patcher, manager, user = self._patch_user_model()
+        with patcher:
+            resolved = _resolve_user()
+        self.assertIs(resolved, user)
+        manager.filter.assert_called_once_with(
+            email="mcp_user", is_staff=True, is_active=True
+        )
+
+    @override_settings(
+        DJ_CONTROL_ROOM_SETTINGS={**MCP_SETTINGS, "MCP_USERNAME": ""}
+    )
+    def test_missing_username_raises_misconfigured_with_field_name(self):
+        patcher, _, _ = self._patch_user_model()
+        with patcher:
+            with self.assertRaises(_MisconfiguredError) as ctx:
+                _resolve_user()
+        self.assertIn("email", str(ctx.exception))
+
+    @override_settings(
+        DJ_CONTROL_ROOM_SETTINGS={**MCP_SETTINGS, "MCP_USERNAME": "nobody@example.com"}
+    )
+    def test_no_match_raises_misconfigured_not_field_error(self):
+        patcher, manager, _ = self._patch_user_model()
+        manager.filter.return_value.first.return_value = None
+        with patcher:
+            with self.assertRaises(_MisconfiguredError) as ctx:
+                _resolve_user()
+        self.assertIn("email", str(ctx.exception))
+        manager.filter.assert_called_once_with(
+            email="nobody@example.com", is_staff=True, is_active=True
+        )
 
 
 @override_settings(DJ_CONTROL_ROOM_SETTINGS=MCP_SETTINGS)
