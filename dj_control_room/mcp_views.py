@@ -9,7 +9,7 @@ Required Django settings (all three must be set)::
     DJ_CONTROL_ROOM_SETTINGS = {
         "MCP_ENABLED": True,           # False (default) returns 404
         "MCP_TOKEN": "your-secret",    # Bearer token checked on every request
-        "MCP_USERNAME": "admin",       # Django username for permission checks
+        "MCP_USERNAME": "admin",       # User model identifier (USERNAME_FIELD)
     }
 
 Configure in ``.cursor/mcp.json``::
@@ -59,19 +59,23 @@ def _resolve_user():
     """
     from django.contrib.auth import get_user_model
 
+    User = get_user_model()
+
     username = panel_config.get_settings("MCP_USERNAME")
     if not username:
         raise _MisconfiguredError(
             "MCP_USERNAME is not set in DJ_CONTROL_ROOM_SETTINGS. "
-            "Set it to the username of the Django user whose permissions "
-            "should apply to MCP tool calls."
+            f"Set it to the {User.USERNAME_FIELD} of the Django user whose "
+            "permissions should apply to MCP tool calls."
         )
 
-    User = get_user_model()
-    user = User.objects.filter(username=username, is_staff=True, is_active=True).first()
+    user = User.objects.filter(
+        **{User.USERNAME_FIELD: username}, is_staff=True, is_active=True
+    ).first()
     if user is None:
         raise _MisconfiguredError(
-            f"MCP_USERNAME '{username}' does not match any active staff user."
+            f"MCP_USERNAME '{username}' does not match any active staff user "
+            f"(matched against the '{User.USERNAME_FIELD}' field)."
         )
     return user
 

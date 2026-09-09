@@ -9,7 +9,8 @@ panel_config = PanelConfig(
         # MCP Streamable HTTP transport — /admin/dj-control-room/mcp/
         # All three keys are required when MCP_ENABLED is True.
         # MCP_TOKEN:    secret Bearer token checked on every request.
-        # MCP_USERNAME: Django username whose permissions apply to tool calls.
+        # MCP_USERNAME: user model identifier (USERNAME_FIELD) whose permissions
+        #               apply to tool calls.
         "MCP_ENABLED": False,
         "MCP_TOKEN": None,
         "MCP_USERNAME": None,
